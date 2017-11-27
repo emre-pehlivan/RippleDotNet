@@ -17,4 +17,18 @@ namespace RippleDotNet.Model
         PaymentChannelFund,
         PaymentChannelClaim
     }
+
+    public enum LedgerEntryType
+    {
+        AccountRoot,
+        Amendments,
+        DirectoryNode,
+        Escrow,
+        FeeSettings,
+        LedgerHashes,
+        Offer,
+        PayChannel,
+        RippleState,
+        SignerList
+    }
 }

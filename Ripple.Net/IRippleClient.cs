@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using RippleDotNet.Exceptions;
 using RippleDotNet.Model.Accounts;
 using RippleDotNet.Requests;
 using RippleDotNet.Requests.Accounts;
@@ -21,7 +22,13 @@ namespace RippleDotNet
 
         Task<AccountCurrencies> AccountCurrencies(string account);
 
+        Task<AccountChannels> AccountChannels(string account);
+
         Task<AccountInfo> AccountInfo(string account);
+
+        Task<AccountLines> AccountLines(string account);
+
+        Task<AccountOffers> AccountOffers(string account);
 
         Task<Model.Transactions.RippleTransaction> Transaction(string transaction);
     }
@@ -99,6 +106,25 @@ namespace RippleDotNet
             return task.Task;
         }
 
+        public Task<AccountChannels> AccountChannels(string account)
+        {
+            requestId++;
+            AccountChannelsRequest request = new AccountChannelsRequest(requestId, account);
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<AccountChannels> task = new TaskCompletionSource<AccountChannels>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = requestId;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(AccountChannels);
+            taskInfo.RemoveUponCompletion = true;
+
+            tasks.TryAdd(requestId, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+
         public Task<AccountInfo> AccountInfo(string account)
         {
             requestId++;
@@ -110,6 +136,44 @@ namespace RippleDotNet
             taskInfo.TaskId = requestId;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(AccountInfo);
+            taskInfo.RemoveUponCompletion = true;
+
+            tasks.TryAdd(requestId, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+
+        public Task<AccountLines> AccountLines(string account)
+        {
+            requestId++;
+            AccountLinesRequest request = new AccountLinesRequest(requestId, account);
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<AccountLines> task = new TaskCompletionSource<AccountLines>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = requestId;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(AccountLines);
+            taskInfo.RemoveUponCompletion = true;
+
+            tasks.TryAdd(requestId, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+
+        public Task<AccountOffers> AccountOffers(string account)
+        {
+            requestId++;
+            AccountOffersRequest request = new AccountOffersRequest(requestId, account);
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<AccountOffers> task = new TaskCompletionSource<AccountOffers>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = requestId;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(AccountOffers);
             taskInfo.RemoveUponCompletion = true;
 
             tasks.TryAdd(requestId, taskInfo);
@@ -163,8 +227,10 @@ namespace RippleDotNet
             }
             else if (response.Status == "error")
             {
-                var setError = taskInfo.TaskCompletionResult.GetType().GetMethod("SetError");
-                setError.Invoke(taskInfo.TaskCompletionResult, new[] { response.Error });
+                var setException = taskInfo.TaskCompletionResult.GetType().GetMethod("SetException", new Type[]{typeof(Exception)}, null);
+
+                RippleException exception = new RippleException(response.Error);
+                setException.Invoke(taskInfo.TaskCompletionResult, new[] { exception });
 
                 tasks.TryRemove(response.Id, out taskInfo);
             }                        

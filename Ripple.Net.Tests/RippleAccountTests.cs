@@ -31,11 +31,31 @@ namespace Ripple.Net.Tests
         }
 
         [TestMethod]
+        public async Task CanGetAccountChannels()
+        {
+            var accountChannels = await client.AccountChannels(account);
+            Assert.IsNotNull(accountChannels);
+        }
+
+        [TestMethod]
         public async Task CanGetAccountCurrencies()
         {
             var currencies = await client.AccountCurrencies(account);
             Assert.IsNotNull(currencies);
         }
 
+        [TestMethod]
+        public async Task CanGetAccountLines()
+        {
+            var accountLines = await client.AccountLines(account);
+            Assert.IsNotNull(accountLines);
+        }
+
+        [TestMethod]
+        public async Task CanGetAccountOffers()
+        {
+            var accountOffers = await client.AccountOffers(account);
+            Assert.IsNotNull(accountOffers);
+        }
     }
 }

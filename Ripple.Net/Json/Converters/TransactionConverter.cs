@@ -12,7 +12,6 @@ namespace RippleDotNet.Json.Converters
             throw new NotImplementedException();
         }
 
-
         public RippleTransaction Create(Type objectType, JObject jObject)
         {
             string transactionType = jObject.Property("TransactionType").Value.ToString();
