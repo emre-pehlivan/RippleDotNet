@@ -59,7 +59,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ripple.Net\Ripple.Net.csproj">
+    <ProjectReference Include="..\..\src\Ripple.Net\Ripple.Net.csproj">
       <Project>{d7f9066a-e648-4dc7-bb07-0d9a80b1e920}</Project>
       <Name>Ripple.Net</Name>
     </ProjectReference>

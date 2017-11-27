@@ -20,13 +20,13 @@ namespace Ripple.Net.Tests
         public static void MyClassInitialize(TestContext testContext)
         {
             client = new RippleClient(serverUrl);
-            client.Connect();
+            client.Connect();            
         }
 
         [TestMethod]
         public async Task CanGetAccountInfo()
         {
-            var accountInfo = await client.AccountInfo(account);
+            RippleDotNet.Model.Accounts.AccountInfo accountInfo = await client.AccountInfo(account);
             Assert.IsNotNull(accountInfo);
         }
 
