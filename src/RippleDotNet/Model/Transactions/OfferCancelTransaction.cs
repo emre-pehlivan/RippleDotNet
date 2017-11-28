@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RippleDotNet.Model.Transactions
+﻿namespace RippleDotNet.Model.Transactions
 {
     public class OfferCancelTransaction : BaseTransaction
     {
+
+        public OfferCancelTransaction()
+        {
+            TransactionType = TransactionType.OfferCancel;
+        }
+
         public uint OfferSequence { get; set; }
     }
 }

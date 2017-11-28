@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace RippleDotNet.Model.Ledger
 {
     public class SignerListLedgerObject : BaseRippleLedgerObject
     {
+        public SignerListLedgerObject()
+        {
+            LedgerEntryType = LedgerEntryType.SignerList;
+        }
+
         public uint Flags { get; set; }
 
         public string OwnerNode { get; set; }

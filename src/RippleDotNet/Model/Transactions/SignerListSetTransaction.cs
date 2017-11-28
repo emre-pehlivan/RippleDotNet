@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using RippleDotNet.Model.Ledger;
 
 namespace RippleDotNet.Model.Transactions
 {
     public class SignerListSetTransaction : BaseTransaction
     {
+
+        public SignerListSetTransaction()
+        {
+            TransactionType = TransactionType.SignerListSet;
+        }
+
         public uint SignerQuorum { get; set; }
 
         public List<SignerEntry> SignerEntries { get; set; }

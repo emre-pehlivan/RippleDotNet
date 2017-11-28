@@ -1,5 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using RippleDotNet.Model;
+using RippleDotNet.Model.Accounts;
+using RippleDotNet.Requests.Accounts;
 
 
 namespace RippleDotNet.Tests
@@ -72,6 +77,34 @@ namespace RippleDotNet.Tests
         {
             var accountTransactions = await client.AccountTransactions(account);
             Assert.IsNotNull(accountTransactions);
+        }
+
+        [TestMethod]
+        public void CanCreateNoRippleCheckRequest()
+        {
+            NoRippleCheckRequest request = new NoRippleCheckRequest(1, account);
+            request.Role = RoleType.User;
+
+            string json = JsonConvert.SerializeObject(request);
+            JObject jObject = JObject.Parse(json);
+            JToken role = jObject["role"];
+            Assert.AreEqual("user", role.Value<string>());
+        }
+
+        [TestMethod]
+        public async Task CanPerformNoRippleCheck()
+        {
+            NoRippleCheck noRippleCheck = await client.NoRippleCheck(account);
+            Assert.IsNotNull(noRippleCheck);
+        }
+
+        [TestMethod]
+        public async Task CanPerformNoRippleCheckWithRequest()
+        {
+            NoRippleCheckRequest request = new NoRippleCheckRequest(1, account);
+            request.Role = RoleType.Gateway;
+            NoRippleCheck noRippleCheck = await client.NoRippleCheck(request);            
+            Assert.IsNotNull(noRippleCheck);
         }
     }
 }

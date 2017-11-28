@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 using RippleDotNet.Json.Converters;
 
@@ -8,6 +6,11 @@ namespace RippleDotNet.Model.Transactions
 {
     public class PaymentChannelCreateTransaction : BaseTransaction
     {
+        public PaymentChannelCreateTransaction()
+        {
+            TransactionType = TransactionType.PaymentChannelCreate;
+        }
+
         public string Amount { get; set; }
 
         public string Destination { get; set; }

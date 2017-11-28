@@ -6,6 +6,11 @@ namespace RippleDotNet.Model.Transactions
 {
     public class AccountSetTransaction : BaseTransaction
     {
+        public AccountSetTransaction()
+        {
+            TransactionType = TransactionType.AccountSet;
+        }
+
         public uint? ClearFlag { get; set; }
 
         public string Domain { get; set; }

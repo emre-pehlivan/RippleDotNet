@@ -120,10 +120,33 @@ namespace RippleDotNet.Model.Transactions
 
     public class AffectedNode
     {
-        [JsonConverter(typeof(LedgerObjectConverter))]
-        public BaseRippleLedgerObject CreatedNode { get; set; }
+        
+        public NodeInfo CreatedNode { get; set; }
 
-        [JsonConverter(typeof(LedgerObjectConverter))]
-        public BaseRippleLedgerObject ModifiedNode { get; set; }
+        
+        public NodeInfo DeletedNode { get; set; }
+
+
+        public NodeInfo ModifiedNode { get; set; }
+    }
+
+    public class NodeInfo
+    {
+        [JsonConverter(typeof(StringEnumConverter))]
+        public LedgerEntryType LedgerEntryType { get; set; }
+
+        public string LedgerIndex { get; set; }
+
+        [JsonProperty("PreviousTxnID")]
+        public string PreviousTransactionId { get; set; }
+
+        [JsonProperty("PreviousTxnLgrSeq")]
+        public uint? PreviousTransactionLedgerSequence { get; set; }
+
+        public dynamic FinalFields { get; set; }
+
+        public dynamic NewFields { get; set; }
+
+        public dynamic PreviousFields { get; set; }
     }
 }

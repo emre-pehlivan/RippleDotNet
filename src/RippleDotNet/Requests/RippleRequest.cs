@@ -12,7 +12,7 @@ namespace RippleDotNet.Requests
         }
 
         [JsonProperty("id")]
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         [JsonProperty("command")]
         public string Command { get; set; }

@@ -5,6 +5,11 @@ namespace RippleDotNet.Model.Transactions
 {
     public class TrustSetTransaction : BaseTransaction
     {
+        public TrustSetTransaction()
+        {
+            TransactionType = TransactionType.TrustSet;
+        }
+
         [JsonConverter(typeof(CurrencyConverter))]
         public object LimitAmount {get; set; }
 

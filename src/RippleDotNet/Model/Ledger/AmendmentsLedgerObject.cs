@@ -8,6 +8,11 @@ namespace RippleDotNet.Model.Ledger
 {
     public class AmendmentsLedgerObject : BaseRippleLedgerObject
     {
+        public AmendmentsLedgerObject()
+        {
+            LedgerEntryType = LedgerEntryType.Amendments;
+        }
+
         public List<Majority> Majorities { get; set; }
 
         public List<string> Amendments { get; set; }

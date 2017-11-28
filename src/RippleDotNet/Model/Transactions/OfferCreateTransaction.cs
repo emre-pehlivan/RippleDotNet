@@ -6,6 +6,12 @@ namespace RippleDotNet.Model.Transactions
 {
     public class OfferCreateTransaction : BaseTransaction
     {
+
+        public OfferCreateTransaction()
+        {
+            TransactionType = TransactionType.OfferCreate;
+        }
+
         [JsonConverter(typeof(RippleDateTimeConverter))]
         public DateTime? Expiration { get; set; }
 

@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace RippleDotNet.Model.Ledger
 {
     public class RippleStateLedgerObject : BaseRippleLedgerObject
     {
+        public RippleStateLedgerObject()
+        {
+            LedgerEntryType = LedgerEntryType.RippleState;
+        }
+
         public RippleStateFlags Flags { get; set; }
 
         public Currency Balance { get; set; }

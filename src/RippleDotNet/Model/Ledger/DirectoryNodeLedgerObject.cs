@@ -1,11 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace RippleDotNet.Model.Ledger
 {
     public class DirectoryNodeLedgerObject : BaseRippleLedgerObject
     {
+
+        public DirectoryNodeLedgerObject()
+        {
+            LedgerEntryType = LedgerEntryType.DirectoryNode;
+        }
+
         public uint Flags { get; set; }
 
         public string RootIndex { get; set; }

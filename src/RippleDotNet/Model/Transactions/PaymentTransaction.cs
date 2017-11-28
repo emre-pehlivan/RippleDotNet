@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using RippleDotNet.Json.Converters;
 
@@ -8,6 +6,11 @@ namespace RippleDotNet.Model.Transactions
 {
     public class PaymentTransaction : BaseTransaction
     {
+        public PaymentTransaction()
+        {
+            TransactionType = TransactionType.Payment;
+        }
+
         [JsonConverter(typeof(CurrencyConverter))]
         public object Amount { get; set; }
 

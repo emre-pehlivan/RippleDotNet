@@ -7,6 +7,11 @@ namespace RippleDotNet.Model.Ledger
 {
     public class AccountRootLedgerObject : BaseRippleLedgerObject
     {
+        public AccountRootLedgerObject()
+        {
+            LedgerEntryType = LedgerEntryType.AccountRoot;
+        }
+
         public string Account { get; set; }
 
         public AccountRootFlags Flags { get; set; }

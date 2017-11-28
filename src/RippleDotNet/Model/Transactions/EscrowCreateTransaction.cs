@@ -8,6 +8,12 @@ namespace RippleDotNet.Model.Transactions
 {
     public class EscrowCreateTransaction : BaseTransaction
     {
+
+        public EscrowCreateTransaction()
+        {
+            TransactionType = TransactionType.EscrowCreate;
+        }
+
         public string Amount { get; set; }
 
         public string Destination { get; set; }

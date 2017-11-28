@@ -2,6 +2,11 @@
 {
     public class FeeSettingsLedgerObject : BaseRippleLedgerObject
     {
+        public FeeSettingsLedgerObject()
+        {
+            LedgerEntryType = LedgerEntryType.FeeSettings;
+        }
+
         public uint Flags { get; set; }
 
         //Transaction fee in drops of XRP as hexidecimal

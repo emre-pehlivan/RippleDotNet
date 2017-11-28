@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 using RippleDotNet.Json.Converters;
 
@@ -8,6 +6,11 @@ namespace RippleDotNet.Model.Ledger
 {
     public class PayChannelLedgerObject : BaseRippleLedgerObject
     {
+        public PayChannelLedgerObject()
+        {
+            LedgerEntryType = LedgerEntryType.PayChannel;
+        }
+
         public uint Flags { get; set; }
 
         public string Account { get; set; }

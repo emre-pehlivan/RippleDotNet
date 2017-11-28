@@ -3,6 +3,11 @@ namespace RippleDotNet.Model.Transactions
 {
     public class SetFeeTransaction : BaseTransaction
     {
+        public SetFeeTransaction()
+        {
+            TransactionType = TransactionType.SetFee;
+        }
+
         public string BaseFee { get; set; }
 
         public uint ReferenceFeeUnits { get; set; }

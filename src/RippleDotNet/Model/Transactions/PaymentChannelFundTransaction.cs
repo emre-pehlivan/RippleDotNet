@@ -6,6 +6,11 @@ namespace RippleDotNet.Model.Transactions
 {
     public class PaymentChannelFundTransaction : BaseTransaction
     {
+        public PaymentChannelFundTransaction()
+        {
+            TransactionType = TransactionType.PaymentChannelFund;
+        }
+
         public string Channel { get; set; }
 
         public string Amount { get; set; }

@@ -4,6 +4,11 @@ namespace RippleDotNet.Model.Ledger
 {
     public class LedgerHashesLedgerObject : BaseRippleLedgerObject
     {
+        public LedgerHashesLedgerObject()
+        {
+            LedgerEntryType = LedgerEntryType.LedgerHashes;
+        }
+
         public uint FirstLedgerSequence { get; set; }
 
         public uint LastLedgerSequence { get; set; }

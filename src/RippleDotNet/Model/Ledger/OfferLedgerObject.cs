@@ -9,6 +9,11 @@ namespace RippleDotNet.Model.Ledger
 {
     public class OfferLedgerObject : BaseRippleLedgerObject
     {
+        public OfferLedgerObject()
+        {
+            LedgerEntryType = LedgerEntryType.Offer;
+        }
+
         public OfferFlags Flags { get; set; }
 
         public string Account { get; set; }

@@ -1,5 +1,7 @@
 ﻿
 using System;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace RippleDotNet.Model
 {
@@ -17,7 +19,9 @@ namespace RippleDotNet.Model
         EscrowCancel,
         PaymentChannelCreate,
         PaymentChannelFund,
-        PaymentChannelClaim
+        PaymentChannelClaim,
+        EnableAmendment,
+        SetFee
     }
 
     public enum LedgerEntryType
@@ -68,9 +72,17 @@ namespace RippleDotNet.Model
     }
 
     [Flags]
-    public enum PaymentChannelclaimFlags
+    public enum PaymentChannelClaimFlags
     {
         tfRenew = 65536,
         tfClose = 131072
+    }
+
+    public enum RoleType
+    {
+        [EnumMember(Value = "gateway")]
+        Gateway,
+        [EnumMember(Value = "user")]
+        User
     }
 }

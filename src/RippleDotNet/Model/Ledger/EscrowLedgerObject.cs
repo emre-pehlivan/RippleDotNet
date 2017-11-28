@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 using RippleDotNet.Json.Converters;
 
@@ -8,6 +6,11 @@ namespace RippleDotNet.Model.Ledger
 {
     public class EscrowLedgerObject : BaseRippleLedgerObject
     {
+        public EscrowLedgerObject()
+        {
+            LedgerEntryType = LedgerEntryType.Escrow;
+        }
+
         public string Account { get; set; }
 
         public string Destination { get; set; }
