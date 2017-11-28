@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using RippleDotNet.Json.Converters;
 
 namespace RippleDotNet.Model.Ledger
 {
-    public class RippleLedgerObject
+    [JsonConverter(typeof(LedgerObjectConverter))]
+    public class BaseRippleLedgerObject
     {
         [JsonConverter(typeof(StringEnumConverter))]
         public LedgerEntryType LedgerEntryType { get; set; }

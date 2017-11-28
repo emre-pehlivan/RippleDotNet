@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
+using RippleDotNet.Json.Converters;
 using RippleDotNet.Model.Ledger;
 
 namespace RippleDotNet.Model.Accounts
@@ -12,13 +13,12 @@ namespace RippleDotNet.Model.Accounts
         public string Account { get; set; }
 
         [JsonProperty("account_objects")]
-        [JsonConverter(typeof(RippleLedgerObject))]
-        public List<RippleLedgerObject> AccountObjectList { get; set; }
+        public List<BaseRippleLedgerObject> AccountObjectList { get; set; }
 
         [JsonProperty("ledger_hash")]
         public string LedgerHash { get; set; }
 
-        [JsonProperty("ledger_hash")]
+        [JsonProperty("ledger_index")]
         public uint? LedgerIndex { get; set; }
 
         [JsonProperty("ledger_current_index")]
@@ -29,5 +29,8 @@ namespace RippleDotNet.Model.Accounts
 
         [JsonProperty("marker")]
         public object Marker { get; set; }
+
+        [JsonProperty("validated")]
+        public bool Validated { get; set; }
     }
 }

@@ -1,10 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
+using RippleDotNet.Json.Converters;
 
 namespace RippleDotNet.Model.Ledger
 {
-    public class PayChannelLedgerObject : RippleLedgerObject
+    public class PayChannelLedgerObject : BaseRippleLedgerObject
     {
+        public uint Flags { get; set; }
+
+        public string Account { get; set; }
+
+        public string Destination { get; set; }
+
+        public string Amount { get; set; }
+
+        public string Balance { get; set; }
+
+        public string PublicKey { get; set; }
+
+        public uint SettleDelay { get; set; }
+
+        public string OwnerNode { get; set; }
+
+        [JsonProperty("PreviousTxnID")]
+        public string PreviousTransactionId { get; set; }
+
+        [JsonProperty("PreviousTxnLgrSeq")]
+        public uint PreviousTransactionLedgerSequence { get; set; }
+
+        [JsonConverter(typeof(RippleDateTimeConverter))]
+        public DateTime? Expiration { get; set; }
+
+        [JsonConverter(typeof(RippleDateTimeConverter))]
+        public DateTime? CancelAfter { get; set; }
+
+        public uint SourceTag { get; set; }
+
+        public uint DestinationTag { get; set; }
     }
 }

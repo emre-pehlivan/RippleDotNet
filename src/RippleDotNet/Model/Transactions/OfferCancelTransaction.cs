@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RippleDotNet.Model.Transactions
 {
-    public class OfferCancelTransaction : RippleTransaction
+    public class OfferCancelTransaction : BaseTransaction
     {
     }
 }

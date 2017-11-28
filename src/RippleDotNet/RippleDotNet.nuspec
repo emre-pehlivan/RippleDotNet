@@ -1,18 +1,17 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>$id$</id>
+    <id>RippleDotNet</id>
     <version>$version$</version>
     <title>$title$</title>
-    <authors>$author$</authors>
-    <owners>$author$</owners>
-    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
-    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
-    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <authors>Chris Williams</authors>
+    <owners>CloudScope, LLC</owners>
+    <licenseUrl>https://github.com/chriswill/RippleDotNet/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/chriswill/RippleDotNet</projectUrl>    
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
-    <copyright>Copyright 2017</copyright>
-    <tags>Tag1 Tag2</tags>
+    <releaseNotes>First release.</releaseNotes>
+    <copyright>Copyright 2017, CloudScope LLC</copyright>
+    <tags>Ripple XRP Cryptocurrency</tags>
   </metadata>
 </package>

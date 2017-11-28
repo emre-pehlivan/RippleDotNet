@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RippleDotNet.Model.Transactions
 {
-    public class SetRegularKeyTransaction : RippleTransaction
+    public class SetRegularKeyTransaction : BaseTransaction
     {
     }
 }

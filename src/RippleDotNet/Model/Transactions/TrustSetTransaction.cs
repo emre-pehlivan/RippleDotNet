@@ -1,6 +1,6 @@
 ﻿namespace RippleDotNet.Model.Transactions
 {
-    public class TrustSetTransaction : RippleTransaction
+    public class TrustSetTransaction : BaseTransaction
     {
     }
 }

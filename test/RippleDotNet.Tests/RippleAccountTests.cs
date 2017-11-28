@@ -26,7 +26,7 @@ namespace RippleDotNet.Tests
         [TestMethod]
         public async Task CanGetAccountInfo()
         {
-            RippleDotNet.Model.Accounts.AccountInfo accountInfo = await client.AccountInfo(account);
+            Model.Accounts.AccountInfo accountInfo = await client.AccountInfo(account);
             Assert.IsNotNull(accountInfo);
         }
 
@@ -56,6 +56,20 @@ namespace RippleDotNet.Tests
         {
             var accountOffers = await client.AccountOffers(account);
             Assert.IsNotNull(accountOffers);
+        }
+
+        [TestMethod]
+        public async Task CanGetAccountObjects()
+        {
+            var accountObjects = await client.AccountObjects(account);
+            Assert.IsNotNull(accountObjects);
+        }
+
+        [TestMethod]
+        public async Task CanGetAccountTransactions()
+        {
+            var accountTransactions = await client.AccountTransactions(account);
+            Assert.IsNotNull(accountTransactions);
         }
     }
 }

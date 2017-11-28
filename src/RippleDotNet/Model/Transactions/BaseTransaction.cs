@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using RippleDotNet.Json.Converters;
+using RippleDotNet.Model.Ledger;
 
 namespace RippleDotNet.Model.Transactions
 {
     [JsonConverter(typeof(TransactionConverter))]
-    public class RippleTransaction
+    public class BaseTransaction
     {
         public string Account { get; set; }
 
@@ -93,6 +94,9 @@ namespace RippleDotNet.Model.Transactions
         public int TransactionIndex { get; set; }
 
         public string TransactionResult { get; set; }
+
+        [JsonConverter(typeof(BalanceConverter))]
+        public object DeliveredAmount { get; set; }
     }
 
     public class FinalFields
@@ -114,19 +118,14 @@ namespace RippleDotNet.Model.Transactions
         public object Balance { get; set; }
         public int Sequence { get; set; }
     }
-
-    public class ModifiedNode
-    {
-        public FinalFields FinalFields { get; set; }
-        public string LedgerEntryType { get; set; }
-        public string LedgerIndex { get; set; }
-        public PreviousFields PreviousFields { get; set; }
-        public string PreviousTxnID { get; set; }
-        public int PreviousTxnLgrSeq { get; set; }
-    }
+    
 
     public class AffectedNode
     {
-        public ModifiedNode ModifiedNode { get; set; }
+        [JsonConverter(typeof(LedgerObjectConverter))]
+        public BaseRippleLedgerObject CreatedNode { get; set; }
+
+        [JsonConverter(typeof(LedgerObjectConverter))]
+        public BaseRippleLedgerObject ModifiedNode { get; set; }
     }
 }

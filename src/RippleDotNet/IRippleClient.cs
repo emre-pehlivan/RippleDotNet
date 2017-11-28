@@ -30,7 +30,12 @@ namespace RippleDotNet
 
         Task<AccountOffers> AccountOffers(string account);
 
-        Task<Model.Transactions.RippleTransaction> Transaction(string transaction);
+        Task<AccountObjects> AccountObjects(string account);
+
+        Task<AccountTransactions> AccountTransactions(string account);
+
+        Task<Model.Transactions.BaseTransaction> Transaction(string transaction);
+        
     }
 
     public class RippleClient : IRippleClient
@@ -182,17 +187,55 @@ namespace RippleDotNet
             return task.Task;
         }
 
-        public Task<Model.Transactions.RippleTransaction> Transaction(string transaction)
+        public Task<AccountObjects> AccountObjects(string account)
         {
             requestId++;
-            TransactionRequest request = new TransactionRequest(requestId, transaction);
+            AccountObjectsRequest request = new AccountObjectsRequest(requestId, account);
             var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<Model.Transactions.RippleTransaction> task = new TaskCompletionSource<Model.Transactions.RippleTransaction>();
+            TaskCompletionSource<AccountObjects> task = new TaskCompletionSource<AccountObjects>();
 
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = requestId;
             taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(Model.Transactions.RippleTransaction);
+            taskInfo.Type = typeof(AccountObjects);
+            taskInfo.RemoveUponCompletion = true;
+
+            tasks.TryAdd(requestId, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+
+        public Task<AccountTransactions> AccountTransactions(string account)
+        {
+            requestId++;
+            AccountTransactionsRequest request = new AccountTransactionsRequest(requestId, account);
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<AccountTransactions> task = new TaskCompletionSource<AccountTransactions>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = requestId;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(AccountTransactions);
+            taskInfo.RemoveUponCompletion = true;
+
+            tasks.TryAdd(requestId, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+
+        public Task<Model.Transactions.BaseTransaction> Transaction(string transaction)
+        {
+            requestId++;
+            TransactionRequest request = new TransactionRequest(requestId, transaction);
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<Model.Transactions.BaseTransaction> task = new TaskCompletionSource<Model.Transactions.BaseTransaction>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = requestId;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(Model.Transactions.BaseTransaction);
             taskInfo.RemoveUponCompletion = true;
 
             tasks.TryAdd(requestId, taskInfo);

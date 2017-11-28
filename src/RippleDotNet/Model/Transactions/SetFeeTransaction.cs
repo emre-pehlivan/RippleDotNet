@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RippleDotNet.Model.Transactions
 {
-    public class SetFeeTransaction : RippleTransaction
+    public class SetFeeTransaction : BaseTransaction
     {
         public string BaseFee { get; set; }
 

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using RippleDotNet.Model.Ledger;
 
 namespace RippleDotNet.Model.Accounts
 {
     public class AccountInfo
     {
         [JsonProperty("account_data")]
-        public AccountData AccountData { get; set; }
+        public AccountRootLedgerObject AccountData { get; set; }
 
         [JsonProperty("ledger_current_index")]
         public int LedgerCurrentIndex { get; set; }
@@ -19,39 +20,7 @@ namespace RippleDotNet.Model.Accounts
         public bool Validated { get; set; }
     }
 
-    public class AccountData
-    {
-        public string Account { get; set; }
-
-        public string Balance { get; set; }
-
-        [JsonIgnore]
-        public double RippleBalance
-        {
-            get
-            {
-                double val = Convert.ToDouble(Balance);
-                return val / 1000000;
-            }
-        }
-
-        public int Flags { get; set; }
-
-        public string LedgerEntryType { get; set; }
-
-        public int OwnerCount { get; set; }
-
-        public string PreviousTxnID { get; set; }
-
-        public int PreviousTxnLgrSeq { get; set; }
-
-        public int Sequence { get; set; }
-
-        [JsonProperty("index")]
-        public string Index { get; set; }
-    }
-
-    public class Transaction
+    public class AccountTransaction
     {
         [JsonProperty("auth_change")]
         public bool AuthChange { get; set; }
@@ -66,7 +35,7 @@ namespace RippleDotNet.Model.Accounts
         public string MaxSpendDrops { get; set; }
 
         [JsonProperty("seq")]
-        public int Seq { get; set; }
+        public int Sequence { get; set; }
 
         public int? LastLedgerSequence { get; set; }
     }
@@ -86,7 +55,7 @@ namespace RippleDotNet.Model.Accounts
         public string MaxSpendDropsTotal { get; set; }
 
         [JsonProperty("transactions")]
-        public List<Transaction> Transactions { get; set; }
+        public List<AccountTransaction> Transactions { get; set; }
 
         [JsonProperty("txn_count")]
         public int TxnCount { get; set; }

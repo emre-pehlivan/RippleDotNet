@@ -1,6 +1,6 @@
 ﻿namespace RippleDotNet.Model.Transactions
 {
-    public class EnableAmendmentTransaction : RippleTransaction
+    public class EnableAmendmentTransaction : BaseTransaction
     {
         public string Amendment { get; set; }
 

@@ -1,10 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RippleDotNet.Model.Ledger
+﻿namespace RippleDotNet.Model.Ledger
 {
-    public class FeeSettingsLedgerObject : RippleLedgerObject
+    public class FeeSettingsLedgerObject : BaseRippleLedgerObject
     {
+        public uint Flags { get; set; }
+
+        //Transaction fee in drops of XRP as hexidecimal
+        public string BaseFee { get; set; }
+
+        public uint ReferenceFeeUnits { get; set; }
+
+        public uint ReserveBase { get; set; }
+
+        public uint ReserveIncrement { get; set; }
     }
 }
