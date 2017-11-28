@@ -31,6 +31,12 @@ namespace RippleDotNet.Tests
         }
 
         [TestMethod]
+        public async Task CanPerformPing()
+        {
+            await client.Ping();            
+        }
+
+        [TestMethod]
         public async Task CanGetAccountInfo()
         {
             Model.Accounts.AccountInfo accountInfo = await client.AccountInfo(account);

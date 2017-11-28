@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Dynamic;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -98,6 +99,7 @@ namespace RippleDotNet
             requestId++;
             RippleRequest request = new RippleRequest(requestId);
             request.Command = "ping";
+
             var command = JsonConvert.SerializeObject(request, serializerSettings);
             TaskCompletionSource<object> task = new TaskCompletionSource<object>();
 
