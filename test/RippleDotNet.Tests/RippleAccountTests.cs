@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RippleDotNet;
 
-namespace Ripple.Net.Tests
+
+namespace RippleDotNet.Tests
 {
     [TestClass]
     public class RippleAccountTests

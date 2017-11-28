@@ -1,17 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RippleDotNet;
 
-namespace Ripple.Net.Tests
+namespace RippleDotNet.Tests
 {
     [TestClass]
     public class TransactionTests
     {
-
         private static IRippleClient client;
-
-        //private static string account = "rJgijaBqNozwJnDxoiMbvLQWvndYTyQidu";
-        private static string account = "rPGKpTsgSaQiwLpEekVj1t5sgYJiqf2HDC";
 
         //private static string serverUrl = "wss://s.altnet.rippletest.net:51233";
         private static string serverUrl = "wss://s1.ripple.com:443";
