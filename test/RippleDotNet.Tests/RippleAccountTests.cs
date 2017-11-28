@@ -11,9 +11,11 @@ namespace RippleDotNet.Tests
 
         //private static string account = "rJgijaBqNozwJnDxoiMbvLQWvndYTyQidu";
         private static string account = "rPGKpTsgSaQiwLpEekVj1t5sgYJiqf2HDC";
+        //private static string account = "rho3u4kXc5q3chQFKfn9S1ZqUCya1xT3t4";
 
         //private static string serverUrl = "wss://s.altnet.rippletest.net:51233";
-        private static string serverUrl = "wss://s1.ripple.com:443";
+        //private static string serverUrl = "wss://s1.ripple.com:443";
+        private static string serverUrl = "wss://s2.ripple.com:443";
 
 
         [ClassInitialize]

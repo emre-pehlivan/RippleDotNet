@@ -28,8 +28,6 @@ namespace RippleDotNet.Model.Transactions
             }
         }
 
-        public uint? Flags { get; set; }
-
         public uint? LastLedgerSequence { get; set; }
 
         public List<Memo> Memos { get; set; }
@@ -95,7 +93,7 @@ namespace RippleDotNet.Model.Transactions
 
         public string TransactionResult { get; set; }
 
-        [JsonConverter(typeof(BalanceConverter))]
+        [JsonConverter(typeof(CurrencyConverter))]
         public object DeliveredAmount { get; set; }
     }
 
@@ -114,7 +112,7 @@ namespace RippleDotNet.Model.Transactions
 
     public class PreviousFields
     {
-        [JsonConverter(typeof(BalanceConverter))]
+        [JsonConverter(typeof(CurrencyConverter))]
         public object Balance { get; set; }
         public int Sequence { get; set; }
     }

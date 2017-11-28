@@ -6,5 +6,12 @@ namespace RippleDotNet.Model.Transactions
 {
     public class EscrowFinishTransaction : BaseTransaction
     {
+        public string Owner { get; set; }
+
+        public uint OfferSequence { get; set; }
+
+        public string Condition { get; set; }
+
+        public string Fulfillment { get; set; }
     }
 }

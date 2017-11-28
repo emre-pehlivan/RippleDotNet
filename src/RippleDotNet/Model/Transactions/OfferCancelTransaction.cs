@@ -6,5 +6,6 @@ namespace RippleDotNet.Model.Transactions
 {
     public class OfferCancelTransaction : BaseTransaction
     {
+        public uint OfferSequence { get; set; }
     }
 }

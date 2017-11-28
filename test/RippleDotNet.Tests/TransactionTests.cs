@@ -9,7 +9,7 @@ namespace RippleDotNet.Tests
         private static IRippleClient client;
 
         //private static string serverUrl = "wss://s.altnet.rippletest.net:51233";
-        private static string serverUrl = "wss://s1.ripple.com:443";
+        private static string serverUrl = "wss://s2.ripple.com:443";
 
         public TestContext TestContext { get; set; }
 
@@ -25,7 +25,7 @@ namespace RippleDotNet.Tests
         [TestMethod]
         public async Task CanGetTransaction()
         {
-            var transaction = await client.Transaction("264F55DA2E3339CEDA4B23CD3755C93DE6712C0E4FE69868411AFE4D37BC92CF");
+            var transaction = await client.Transaction("E08D6E9754025BA2534A78707605E0601F03ACE063687A0CA1BDDACFCD1698C7");
             Assert.IsNotNull(transaction);
         }
     }

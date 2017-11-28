@@ -15,10 +15,10 @@ namespace RippleDotNet.Model.Ledger
 
         public uint Sequence { get; set; }
 
-        [JsonConverter(typeof(BalanceConverter))]
+        [JsonConverter(typeof(CurrencyConverter))]
         public object TakerPays { get; set; }
 
-        [JsonConverter(typeof(BalanceConverter))]
+        [JsonConverter(typeof(CurrencyConverter))]
         public object TakerGets { get; set; }
 
         public string BookDirectory { get; set; }

@@ -60,9 +60,17 @@ namespace RippleDotNet.Model
         lsfDefaultRipple = 8388608
     }
 
+    [Flags]
     public enum OfferFlags
     {
         lsfPassive = 65536,
         lsfSell = 131072
+    }
+
+    [Flags]
+    public enum PaymentChannelclaimFlags
+    {
+        tfRenew = 65536,
+        tfClose = 131072
     }
 }

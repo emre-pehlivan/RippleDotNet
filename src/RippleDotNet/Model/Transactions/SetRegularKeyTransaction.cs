@@ -6,5 +6,6 @@ namespace RippleDotNet.Model.Transactions
 {
     public class SetRegularKeyTransaction : BaseTransaction
     {
+        public string RegularKey { get; set; }
     }
 }

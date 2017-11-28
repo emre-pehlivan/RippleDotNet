@@ -4,7 +4,7 @@ using RippleDotNet.Model;
 
 namespace RippleDotNet.Json.Converters
 {
-    public class BalanceConverter : JsonConverter
+    public class CurrencyConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
@@ -20,6 +20,11 @@ namespace RippleDotNet.Json.Converters
             if (reader.TokenType == JsonToken.String)
             {
                 return reader.Value;
+            }
+
+            if (reader.TokenType == JsonToken.StartObject)
+            {
+                return serializer.Deserialize<Currency>(reader);
             }
 
             throw new Exception("Cannot convert value");

@@ -2,12 +2,15 @@
 
 namespace RippleDotNet.Model
 {
-    public class Path : Currency
+    public class Path
     {
-        [JsonProperty("type")]
-        public int Type { get; set; }
+        [JsonProperty("account")]
+        public string Account { get; set; }
 
-        [JsonProperty("type_hex")]
-        public string TypeHex { get; set; }
+        [JsonProperty("currency")]
+        public string CurrencyCode { get; set; }
+
+        [JsonProperty("issuer")]
+        public string Issuer { get; set; }
     }
 }
