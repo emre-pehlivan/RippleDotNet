@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json;
+using RippleDotNet.Json.Converters;
 
 namespace RippleDotNet.Requests.Accounts
 {
-    public class GatewayBalances : LedgerRequest
+    public class GatewayBalancesRequest : LedgerRequest
     {
-        public GatewayBalances(int requestId, string account) : base(requestId)
+        public GatewayBalancesRequest(string account)
         {
             Account = account;
             Command = "gateway_balances";
@@ -17,6 +18,7 @@ namespace RippleDotNet.Requests.Accounts
         public bool? Strict { get; set; }
 
         [JsonProperty("hotwallet")]
+        [JsonConverter(typeof(StringOrArrayConverter))]
         public object HotWallet { get; set; }
     }
 }

@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace RippleDotNet.Responses
 {
     public class RippleResponse
     {
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [JsonProperty("error")]
         public string Error { get; set; }

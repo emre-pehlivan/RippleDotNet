@@ -7,7 +7,7 @@ namespace RippleDotNet.Requests.Accounts
 {
     public class AccountChannelsRequest : LedgerRequest
     {
-        public AccountChannelsRequest(int requestId, string account) : base(requestId)
+        public AccountChannelsRequest(string account)
         {
             Account = account;
             Command = "account_channels";

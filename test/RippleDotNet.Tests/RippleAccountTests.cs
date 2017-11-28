@@ -88,7 +88,7 @@ namespace RippleDotNet.Tests
         [TestMethod]
         public void CanCreateNoRippleCheckRequest()
         {
-            NoRippleCheckRequest request = new NoRippleCheckRequest(1, account);
+            NoRippleCheckRequest request = new NoRippleCheckRequest(account);
             request.Role = RoleType.User;
 
             string json = JsonConvert.SerializeObject(request);
@@ -107,10 +107,17 @@ namespace RippleDotNet.Tests
         [TestMethod]
         public async Task CanPerformNoRippleCheckWithRequest()
         {
-            NoRippleCheckRequest request = new NoRippleCheckRequest(1, account);
+            NoRippleCheckRequest request = new NoRippleCheckRequest(account);
             request.Role = RoleType.Gateway;
             NoRippleCheck noRippleCheck = await client.NoRippleCheck(request);            
             Assert.IsNotNull(noRippleCheck);
+        }
+
+        [TestMethod]
+        public async Task CanGetGatewayBalances()
+        {
+            var balances = await client.GatewayBalances(account);
+            Assert.IsNotNull(balances);
         }
     }
 }

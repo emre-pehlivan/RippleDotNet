@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace RippleDotNet.Requests.Accounts
 {
     public class AccountLinesRequest : LedgerRequest
     {
-        public AccountLinesRequest(int requestId, string account) : base(requestId)
+        public AccountLinesRequest(string account)
         {
             Account = account;
             Command = "account_lines";

@@ -54,6 +54,10 @@ namespace RippleDotNet
 
         Task<NoRippleCheck> NoRippleCheck(NoRippleCheckRequest request);
 
+        Task<GatewayBalances> GatewayBalances(string account);
+
+        Task<GatewayBalances> GatewayBalances(GatewayBalancesRequest request);
+
         Task<BaseTransaction> Transaction(string transaction);
 
         Task<BaseTransaction> Transaction(TransactionRequest request);
@@ -63,21 +67,19 @@ namespace RippleDotNet
     public class RippleClient : IRippleClient
     {
         private readonly WebSocketClient client;
-        private int requestId;
-        private readonly ConcurrentDictionary<int, TaskInfo> tasks;
+        private readonly ConcurrentDictionary<Guid, TaskInfo> tasks;
         private readonly JsonSerializerSettings serializerSettings;
 
         public RippleClient(string url)
         {
-            tasks = new ConcurrentDictionary<int, TaskInfo>();
+            tasks = new ConcurrentDictionary<Guid, TaskInfo>();
             serializerSettings = new JsonSerializerSettings();
             serializerSettings.NullValueHandling = NullValueHandling.Ignore;
             serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
             
             client = WebSocketClient.Create(url);
             client.OnMessageReceived(MessageReceived);
-            client.OnConnectionError(Error);
-            requestId = 0;
+            client.OnConnectionError(Error);            
         }
 
         public void Connect()
@@ -96,20 +98,19 @@ namespace RippleDotNet
 
         public Task Ping()
         {
-            requestId++;
-            RippleRequest request = new RippleRequest(requestId);
+            RippleRequest request = new RippleRequest();
             request.Command = "ping";
 
             var command = JsonConvert.SerializeObject(request, serializerSettings);
             TaskCompletionSource<object> task = new TaskCompletionSource<object>();
 
             TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = requestId;
+            taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(object);
             taskInfo.RemoveUponCompletion = true;
 
-            tasks.TryAdd(requestId, taskInfo);
+            tasks.TryAdd(request.Id, taskInfo);
             
             client.SendMessage(command);
             return task.Task;
@@ -117,8 +118,7 @@ namespace RippleDotNet
 
         public Task<AccountCurrencies> AccountCurrencies(string account)
         {
-            requestId++;
-            AccountCurrenciesRequest request = new AccountCurrenciesRequest(requestId, account);
+            AccountCurrenciesRequest request = new AccountCurrenciesRequest(account);
             return AccountCurrencies(request);
         }
 
@@ -141,8 +141,7 @@ namespace RippleDotNet
 
         public Task<AccountChannels> AccountChannels(string account)
         {
-            requestId++;
-            AccountChannelsRequest request = new AccountChannelsRequest(requestId, account);
+            AccountChannelsRequest request = new AccountChannelsRequest(account);
             return AccountChannels(request);
         }
 
@@ -165,8 +164,7 @@ namespace RippleDotNet
 
         public Task<AccountInfo> AccountInfo(string account)
         {
-            requestId++;
-            AccountInfoRequest request = new AccountInfoRequest(requestId, account);
+            AccountInfoRequest request = new AccountInfoRequest(account);
             return AccountInfo(request);
         }
 
@@ -189,8 +187,7 @@ namespace RippleDotNet
 
         public Task<AccountLines> AccountLines(string account)
         {
-            requestId++;
-            AccountLinesRequest request = new AccountLinesRequest(requestId, account);
+            AccountLinesRequest request = new AccountLinesRequest(account);
             return AccountLines(request);
         }
 
@@ -213,8 +210,7 @@ namespace RippleDotNet
 
         public Task<AccountOffers> AccountOffers(string account)
         {
-            requestId++;
-            AccountOffersRequest request = new AccountOffersRequest(requestId, account);
+            AccountOffersRequest request = new AccountOffersRequest(account);
             return AccountOffers(request);
         }
 
@@ -237,8 +233,7 @@ namespace RippleDotNet
 
         public Task<AccountObjects> AccountObjects(string account)
         {
-            requestId++;
-            AccountObjectsRequest request = new AccountObjectsRequest(requestId, account);
+            AccountObjectsRequest request = new AccountObjectsRequest(account);
             return AccountObjects(request);
         }
 
@@ -261,8 +256,7 @@ namespace RippleDotNet
 
         public Task<AccountTransactions> AccountTransactions(string account)
         {
-            requestId++;
-            AccountTransactionsRequest request = new AccountTransactionsRequest(requestId, account);
+            AccountTransactionsRequest request = new AccountTransactionsRequest(account);
             return AccountTransactions(request);
         }
 
@@ -285,8 +279,7 @@ namespace RippleDotNet
 
         public Task<NoRippleCheck> NoRippleCheck(string account)
         {
-            requestId++;
-            NoRippleCheckRequest request = new NoRippleCheckRequest(requestId, account);
+            NoRippleCheckRequest request = new NoRippleCheckRequest(account);
             return NoRippleCheck(request);
         }
 
@@ -307,10 +300,32 @@ namespace RippleDotNet
             return task.Task;
         }
 
+        public Task<GatewayBalances> GatewayBalances(string account)
+        {
+            GatewayBalancesRequest request = new GatewayBalancesRequest(account);
+            return GatewayBalances(request);
+        }
+
+        public Task<GatewayBalances> GatewayBalances(GatewayBalancesRequest request)
+        {
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<GatewayBalances> task = new TaskCompletionSource<GatewayBalances>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request.Id;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(GatewayBalances);
+            taskInfo.RemoveUponCompletion = true;
+
+            tasks.TryAdd(request.Id, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+
         public Task<BaseTransaction> Transaction(string transaction)
         {
-            requestId++;
-            TransactionRequest request = new TransactionRequest(requestId, transaction);
+            TransactionRequest request = new TransactionRequest(transaction);
             return Transaction(request);
         }
 
@@ -320,7 +335,7 @@ namespace RippleDotNet
             TaskCompletionSource<BaseTransaction> task = new TaskCompletionSource<BaseTransaction>();
 
             TaskInfo taskInfo = new TaskInfo();
-            taskInfo.TaskId = requestId;
+            taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(BaseTransaction);
             taskInfo.RemoveUponCompletion = true;

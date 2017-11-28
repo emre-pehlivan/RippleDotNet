@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace RippleDotNet.Requests.Transactions
 {
     public class TransactionRequest : RippleRequest
     {
-        public TransactionRequest(int requestId, string transaction) : base(requestId)
+        public TransactionRequest(string transaction)
         {
             Command = "tx";
             Transaction = transaction;

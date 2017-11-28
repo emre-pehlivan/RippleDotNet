@@ -4,7 +4,7 @@ namespace RippleDotNet.Requests.Accounts
 {
     public class AccountObjectsRequest : LedgerRequest
     {
-        public AccountObjectsRequest(int requestId, string account) : base(requestId)
+        public AccountObjectsRequest(string account)
         {
             Account = account;
             Command = "account_objects";

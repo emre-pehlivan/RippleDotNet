@@ -1,18 +1,22 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace RippleDotNet.Requests
 {
     public class RippleRequest
     {
-        public RippleRequest(){ }
+        public RippleRequest()
+        {
+            Id = Guid.NewGuid();
+        }
 
-        public RippleRequest(int id)
+        public RippleRequest(Guid id)
         {
             Id = id;
         }
 
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [JsonProperty("command")]
         public string Command { get; set; }

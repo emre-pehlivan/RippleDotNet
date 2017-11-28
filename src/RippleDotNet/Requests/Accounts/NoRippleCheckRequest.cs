@@ -6,7 +6,7 @@ namespace RippleDotNet.Requests.Accounts
 {
     public class NoRippleCheckRequest : LedgerRequest
     {
-        public NoRippleCheckRequest(int requestId, string account) : base(requestId)
+        public NoRippleCheckRequest(string account)
         {
             Account = account;
             Command = "noripple_check";
