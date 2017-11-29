@@ -85,4 +85,18 @@ namespace RippleDotNet.Model
         [EnumMember(Value = "user")]
         User
     }
+
+    public enum StreamType
+    {
+        [EnumMember(Value = "ledgerClosed")]
+        Ledger,
+        [EnumMember(Value = "validationReceived")]
+        Validations,
+        [EnumMember(Value = "transaction")]
+        Transaction,
+        [EnumMember(Value = "peerStatusChange")]
+        PeerStatus,
+        [EnumMember(Value = "transaction")]
+        OrderBook
+    }
 }
