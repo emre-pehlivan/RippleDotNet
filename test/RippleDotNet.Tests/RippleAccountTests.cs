@@ -39,7 +39,7 @@ namespace RippleDotNet.Tests
         [TestMethod]
         public async Task CanGetAccountInfo()
         {
-            Model.Accounts.AccountInfo accountInfo = await client.AccountInfo(account);
+            AccountInfo accountInfo = await client.AccountInfo(account);
             Assert.IsNotNull(accountInfo);
         }
 

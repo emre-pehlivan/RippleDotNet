@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RippleDotNet.Exceptions;
 using RippleDotNet.Model.Accounts;
+using RippleDotNet.Model.Server;
 using RippleDotNet.Model.Transactions;
 using RippleDotNet.Requests;
 using RippleDotNet.Requests.Accounts;
@@ -61,6 +62,9 @@ namespace RippleDotNet
         Task<BaseTransaction> Transaction(string transaction);
 
         Task<BaseTransaction> Transaction(TransactionRequest request);
+
+        Task<ServerInfo> ServerInfo();
+        Task<Fee> Fees();
 
     }
 
@@ -338,6 +342,46 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(BaseTransaction);
+            taskInfo.RemoveUponCompletion = true;
+
+            tasks.TryAdd(request.Id, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+
+        public Task<ServerInfo> ServerInfo()
+        {
+            RippleRequest request = new RippleRequest();
+            request.Command = "server_info";
+
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<ServerInfo> task = new TaskCompletionSource<ServerInfo>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request.Id;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(ServerInfo);
+            taskInfo.RemoveUponCompletion = true;
+
+            tasks.TryAdd(request.Id, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+
+        public Task<Fee> Fees()
+        {
+            RippleRequest request = new RippleRequest();
+            request.Command = "fee";
+
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<Fee> task = new TaskCompletionSource<Fee>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request.Id;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(Fee);
             taskInfo.RemoveUponCompletion = true;
 
             tasks.TryAdd(request.Id, taskInfo);

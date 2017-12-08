@@ -1,10 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RippleDotNet.Model.Server;
+using RippleDotNet.Requests;
 
 namespace RippleDotNet.Tests
 {
     [TestClass]
-    public class TransactionTests
+    public class ServerTests
     {
         private static IRippleClient client;
 
@@ -13,7 +18,7 @@ namespace RippleDotNet.Tests
 
         public TestContext TestContext { get; set; }
 
-        
+
         [ClassInitialize]
         public static void MyClassInitialize(TestContext testContext)
         {
@@ -21,12 +26,18 @@ namespace RippleDotNet.Tests
             client.Connect();
         }
 
+        [TestMethod]
+        public async Task CanGetServerState()
+        {
+            ServerInfo serverInfo = await client.ServerInfo();
+            Assert.IsNotNull(serverInfo);
+        }
 
         [TestMethod]
-        public async Task CanGetTransaction()
+        public async Task CanGetFees()
         {
-            var transaction = await client.Transaction("E08D6E9754025BA2534A78707605E0601F03ACE063687A0CA1BDDACFCD1698C7");
-            Assert.IsNotNull(transaction);
+            Fee fee = await client.Fees();
+            Assert.IsNotNull(fee);
         }
     }
 }

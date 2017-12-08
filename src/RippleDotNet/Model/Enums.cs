@@ -99,4 +99,22 @@ namespace RippleDotNet.Model
         [EnumMember(Value = "transaction")]
         OrderBook
     }
+
+    public enum ServerState
+    {
+        [EnumMember(Value = "disconnected")]
+        Disconnected,
+        [EnumMember(Value = "connected")]
+        Connected,
+        [EnumMember(Value = "syncing")]
+        Syncing,
+        [EnumMember(Value = "tracking")]
+        Tracking,
+        [EnumMember(Value = "full")]
+        Full,
+        [EnumMember(Value = "validating")]
+        Validating,
+        [EnumMember(Value = "proposing")]
+        Proposing
+    }
 }
