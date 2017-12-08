@@ -1,5 +1,5 @@
 ﻿
-namespace RippleDotNet.Model.Transactions
+namespace RippleDotNet.Model.Transactions.TransactionTypes
 {
     public class SetRegularKeyTransaction : BaseTransaction
     {

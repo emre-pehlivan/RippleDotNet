@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using RippleDotNet.Model.Transactions;
+using RippleDotNet.Model.Transactions.TransactionTypes;
 
 namespace RippleDotNet.Model.Accounts
 {

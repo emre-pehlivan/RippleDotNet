@@ -8,7 +8,12 @@ namespace RippleDotNet.Json.Converters
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            if (value is string)
+                writer.WriteValue(value);
+            else
+            {
+                
+            }            
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,

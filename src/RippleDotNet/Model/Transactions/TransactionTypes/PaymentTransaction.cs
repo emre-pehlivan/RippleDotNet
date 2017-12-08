@@ -2,13 +2,14 @@
 using Newtonsoft.Json;
 using RippleDotNet.Json.Converters;
 
-namespace RippleDotNet.Model.Transactions
+namespace RippleDotNet.Model.Transactions.TransactionTypes
 {
     public class PaymentTransaction : BaseTransaction
     {
         public PaymentTransaction()
         {
             TransactionType = TransactionType.Payment;
+            Flags = PaymentFlags.tfFullyCanonicalSig;
         }
 
         [JsonConverter(typeof(CurrencyConverter))]
@@ -17,6 +18,8 @@ namespace RippleDotNet.Model.Transactions
         public string Destination { get; set; }
 
         public uint? DestinationTag { get; set; }
+
+        public new PaymentFlags? Flags { get; set; }
 
         public string InvoiceId { get; set; }
 

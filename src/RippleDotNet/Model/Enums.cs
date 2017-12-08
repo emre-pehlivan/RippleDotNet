@@ -117,4 +117,31 @@ namespace RippleDotNet.Model
         [EnumMember(Value = "proposing")]
         Proposing
     }
+
+    [Flags]
+    public enum TransactionFlags : uint
+    {
+        tfFullyCanonicalSig = 2147483648
+    }
+
+    [Flags]
+    public enum PaymentFlags : uint
+    {
+        tfNoDirectRipple = 65536,
+        tfPartialPayment = 131072,
+        tfLimitQuality = 262144,
+        tfFullyCanonicalSig = 2147483648
+    }
+
+    public enum AccountSetFlags
+    {
+        asfRequireDest = 1,
+        asfRequireAuth = 2,
+        asfDisallowXRP = 3,
+        asfDisableMaster = 4,
+        asfAccountTxnID = 5,
+        asfNoFreeze = 6,
+        asfGlobalFreeze = 7,
+        asfDefaultRipple = 8
+    }
 }

@@ -1,20 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using RippleDotNet.Json.Converters;
-using RippleDotNet.Model.Ledger;
 
-namespace RippleDotNet.Model.Transactions
+namespace RippleDotNet.Model.Transactions.TransactionTypes
 {
     [JsonConverter(typeof(TransactionConverter))]
     public class BaseTransaction
     {
+
+        public BaseTransaction()
+        {
+            Fee = "10000";
+        }
+
         public string Account { get; set; }
 
         public string AccountTxnID { get; set; }
 
         public string Fee { get; set; }
+
+        public uint? Flags { get; set; }
 
         [JsonIgnore]
         public double RippleFee
@@ -22,26 +30,27 @@ namespace RippleDotNet.Model.Transactions
             get
             {
                 if (string.IsNullOrEmpty(Fee)) return 0;
-
-                double val = Convert.ToDouble(Fee);
-                return val / 1000000;
+                return Convert.ToDouble(Fee) / 1000000;
             }
+            set => Fee = (value * 100000).ToString(CultureInfo.InvariantCulture);
         }
 
         public uint? LastLedgerSequence { get; set; }
 
         public List<Memo> Memos { get; set; }
 
-        public uint Sequence { get; set; }
+        public uint? Sequence { get; set; }
 
-
-        public string SigningPubKey { get; set; }
+        [JsonProperty("SigningPubKey")]
+        public string SigningPublicKey { get; set; }
 
         public List<Signer> Signers { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
         public TransactionType TransactionType { get; set; }
-        public string TxnSignature { get; set; }
+
+        [JsonProperty("TxnSignature")]
+        public string TransactionSignature { get; set; }
 
         [JsonConverter(typeof(RippleDateTimeConverter))]
         public DateTime? Date { get; set; }
@@ -50,16 +59,25 @@ namespace RippleDotNet.Model.Transactions
         public string Hash { get; set; }
 
         [JsonProperty("inLedger")]
-        public int InLedger { get; set; }
+        public uint? InLedger { get; set; }
 
         [JsonProperty("ledger_index")]
-        public int LedgerIndex { get; set; }
+        public uint? LedgerIndex { get; set; }
 
         [JsonProperty("meta")]
         public Meta Meta { get; set; }
 
         [JsonProperty("validated")]
-        public bool Validated { get; set; }
+        public bool? Validated { get; set; }
+
+        public override string ToString()
+        {
+            JsonSerializerSettings serializerSettings = new JsonSerializerSettings();
+            serializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            serializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+
+            return JsonConvert.SerializeObject(this, serializerSettings);
+        }
     }
 
     public class Memo
@@ -80,9 +98,12 @@ namespace RippleDotNet.Model.Transactions
     public class Signer
     {
         public string Account { get; set; }
-        public string TxnSignature { get; set; }
 
-        public string SigningPubKey { get; set; }
+        [JsonProperty("TxnSignature")]
+        public string TransactionSignature { get; set; }
+
+        [JsonProperty("SigningPubKey")]
+        public string SigningPublicKey { get; set; }
     }
 
     public class Meta
@@ -120,12 +141,9 @@ namespace RippleDotNet.Model.Transactions
 
     public class AffectedNode
     {
-        
         public NodeInfo CreatedNode { get; set; }
 
-        
         public NodeInfo DeletedNode { get; set; }
-
 
         public NodeInfo ModifiedNode { get; set; }
     }

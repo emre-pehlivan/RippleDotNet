@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace RippleDotNet.Model.Transactions
+namespace RippleDotNet.Model.Transactions.TransactionTypes
 {
     public class EscrowFinishTransaction : BaseTransaction
     {

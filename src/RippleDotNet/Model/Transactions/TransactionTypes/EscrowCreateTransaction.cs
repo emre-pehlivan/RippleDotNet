@@ -4,7 +4,7 @@ using System.Text;
 using Newtonsoft.Json;
 using RippleDotNet.Json.Converters;
 
-namespace RippleDotNet.Model.Transactions
+namespace RippleDotNet.Model.Transactions.TransactionTypes
 {
     public class EscrowCreateTransaction : BaseTransaction
     {

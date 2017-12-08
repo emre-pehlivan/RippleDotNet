@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using RippleDotNet.Model.Ledger;
 
-namespace RippleDotNet.Model.Transactions
+namespace RippleDotNet.Model.Transactions.TransactionTypes
 {
     public class SignerListSetTransaction : BaseTransaction
     {

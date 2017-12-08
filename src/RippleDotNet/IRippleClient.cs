@@ -8,6 +8,7 @@ using RippleDotNet.Exceptions;
 using RippleDotNet.Model.Accounts;
 using RippleDotNet.Model.Server;
 using RippleDotNet.Model.Transactions;
+using RippleDotNet.Model.Transactions.TransactionTypes;
 using RippleDotNet.Requests;
 using RippleDotNet.Requests.Accounts;
 using RippleDotNet.Requests.Transactions;
@@ -66,6 +67,13 @@ namespace RippleDotNet
         Task<ServerInfo> ServerInfo();
         Task<Fee> Fees();
 
+        Task<ChannelAuthorize> ChannelAuthorize(ChannelAuthorizeRequest request);
+
+        Task<ChannelVerify> ChannelVerify(ChannelVerifyRequest request);
+
+        Task<Submit> SubmitTransactionBlob(SubmitBlobRequest request);
+
+        Task<Submit> SubmitTransaction(SubmitRequest request);
     }
 
     public class RippleClient : IRippleClient
@@ -382,6 +390,74 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(Fee);
+            taskInfo.RemoveUponCompletion = true;
+
+            tasks.TryAdd(request.Id, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+
+        public Task<ChannelAuthorize> ChannelAuthorize(ChannelAuthorizeRequest request)
+        {
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<ChannelAuthorize> task = new TaskCompletionSource<ChannelAuthorize>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request.Id;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(ChannelAuthorize);
+            taskInfo.RemoveUponCompletion = true;
+
+            tasks.TryAdd(request.Id, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+
+        public Task<ChannelVerify> ChannelVerify(ChannelVerifyRequest request)
+        {
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<ChannelVerify> task = new TaskCompletionSource<ChannelVerify>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request.Id;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(ChannelVerify);
+            taskInfo.RemoveUponCompletion = true;
+
+            tasks.TryAdd(request.Id, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+
+        public Task<Submit> SubmitTransactionBlob(SubmitBlobRequest request)
+        {
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<Submit> task = new TaskCompletionSource<Submit>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request.Id;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(Submit);
+            taskInfo.RemoveUponCompletion = true;
+
+            tasks.TryAdd(request.Id, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+
+        public Task<Submit> SubmitTransaction(SubmitRequest request)
+        {
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<Submit> task = new TaskCompletionSource<Submit>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request.Id;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(Submit);
             taskInfo.RemoveUponCompletion = true;
 
             tasks.TryAdd(request.Id, taskInfo);

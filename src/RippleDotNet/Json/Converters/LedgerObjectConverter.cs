@@ -54,5 +54,7 @@ namespace RippleDotNet.Json.Converters
         {
             throw new NotImplementedException();
         }
+
+        public override bool CanWrite => false;
     }
 }

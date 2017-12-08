@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RippleDotNet.Model.Transactions;
+using RippleDotNet.Model.Transactions.TransactionTypes;
 
 namespace RippleDotNet.Json.Converters
 {
@@ -62,7 +62,9 @@ namespace RippleDotNet.Json.Converters
 
         public override bool CanConvert(Type objectType)
         {
-            throw new NotImplementedException();
+            return true;
         }
+
+        public override bool CanWrite => false;
     }
 }
