@@ -14,6 +14,10 @@
     <PackageLicenseUrl>https://github.com/chriswill/RippleDotNet/blob/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard2.0\RippleDotNet.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>

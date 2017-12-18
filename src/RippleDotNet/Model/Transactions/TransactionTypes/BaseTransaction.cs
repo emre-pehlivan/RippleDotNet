@@ -13,27 +13,17 @@ namespace RippleDotNet.Model.Transactions.TransactionTypes
 
         public BaseTransaction()
         {
-            Fee = "10000";
+            Fee = new Currency {Value = "10000"};
         }
 
         public string Account { get; set; }
 
         public string AccountTxnID { get; set; }
 
-        public string Fee { get; set; }
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Fee { get; set; }
 
         public uint? Flags { get; set; }
-
-        [JsonIgnore]
-        public double RippleFee
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(Fee)) return 0;
-                return Convert.ToDouble(Fee) / 1000000;
-            }
-            set => Fee = (value * 100000).ToString(CultureInfo.InvariantCulture);
-        }
 
         public uint? LastLedgerSequence { get; set; }
 
@@ -115,19 +105,29 @@ namespace RippleDotNet.Model.Transactions.TransactionTypes
         public string TransactionResult { get; set; }
 
         [JsonConverter(typeof(CurrencyConverter))]
-        public object DeliveredAmount { get; set; }
+        public Currency DeliveredAmount { get; set; }
     }
 
     public class FinalFields
     {
         public string Account { get; set; }
+
         public object Balance { get; set; }
+
         public int Flags { get; set; }
+
         public int OwnerCount { get; set; }
+
         public int Sequence { get; set; }
+
+        [JsonConverter(typeof(CurrencyConverter))]
         public Currency HighLimit { get; set; }
+
         public string HighNode { get; set; }
+
+        [JsonConverter(typeof(CurrencyConverter))]
         public Currency LowLimit { get; set; }
+
         public string LowNode { get; set; }
     }
 

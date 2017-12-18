@@ -36,11 +36,11 @@ namespace RippleDotNet.Model.Accounts
 
         [JsonProperty("taker_gets")]
         [JsonConverter(typeof(CurrencyConverter))]
-        public object TakerGets { get; set; }
+        public Currency TakerGets { get; set; }
 
         [JsonProperty("taker_pays")]
         [JsonConverter(typeof(CurrencyConverter))]
-        public object TakerPays { get; set; }
+        public Currency TakerPays { get; set; }
 
         [JsonProperty("quality")]
         public uint Quality { get; set; }

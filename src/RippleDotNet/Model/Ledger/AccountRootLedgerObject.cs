@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
+using RippleDotNet.Json.Converters;
 
 namespace RippleDotNet.Model.Ledger
 {
@@ -18,7 +19,8 @@ namespace RippleDotNet.Model.Ledger
 
         public uint Sequence { get; set; }
 
-        public string Balance { get; set; }
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Balance { get; set; }
 
         public uint OwnerCount { get; set; }
 

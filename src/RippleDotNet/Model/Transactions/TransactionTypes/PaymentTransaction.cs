@@ -13,7 +13,7 @@ namespace RippleDotNet.Model.Transactions.TransactionTypes
         }
 
         [JsonConverter(typeof(CurrencyConverter))]
-        public object Amount { get; set; }
+        public Currency Amount { get; set; }
 
         public string Destination { get; set; }
 
@@ -26,9 +26,9 @@ namespace RippleDotNet.Model.Transactions.TransactionTypes
         public List<List<Path>> Paths { get; set; }
 
         [JsonConverter(typeof(CurrencyConverter))]
-        public object SendMax { get; set; }
+        public Currency SendMax { get; set; }
 
         [JsonConverter(typeof(CurrencyConverter))]
-        public object DeliverMin { get; set; }
+        public Currency DeliverMin { get; set; }
     }
 }

@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.ComponentModel;
+﻿using System;
 using System.Runtime.Serialization;
 
 namespace RippleDotNet.Model
@@ -71,13 +69,7 @@ namespace RippleDotNet.Model
         lsfSell = 131072
     }
 
-    [Flags]
-    public enum PaymentChannelClaimFlags
-    {
-        tfRenew = 65536,
-        tfClose = 131072
-    }
-
+    
     public enum RoleType
     {
         [EnumMember(Value = "gateway")]
@@ -119,12 +111,6 @@ namespace RippleDotNet.Model
     }
 
     [Flags]
-    public enum TransactionFlags : uint
-    {
-        tfFullyCanonicalSig = 2147483648
-    }
-
-    [Flags]
     public enum PaymentFlags : uint
     {
         tfNoDirectRipple = 65536,
@@ -143,5 +129,40 @@ namespace RippleDotNet.Model
         asfNoFreeze = 6,
         asfGlobalFreeze = 7,
         asfDefaultRipple = 8
+    }
+
+    [Flags]
+    public enum TrustSetFlags : uint
+    {
+        tfSetfAuth = 65536,
+        tfSetNoRipple = 131072,
+        tfClearNoRipple = 262144,
+        tfSetFreeze = 1048576,
+        tfClearFreeze = 2097152,
+        tfFullyCanonicalSig = 2147483648
+    }
+
+    [Flags]
+    public enum OfferCreateFlags : uint
+    {
+        tfPassive = 65536,
+        tfImmediateOrCancel = 131072,
+        tfFillOrKill = 262144,
+        tfSell = 524288,
+        tfFullyCanonicalSig = 2147483648
+    }
+
+    [Flags]
+    public enum PaymentChannelClaimFlags : uint
+    {
+        tfRenew = 65536,
+        tfClose = 131072,
+        tfFullyCanonicalSig = 2147483648
+    }
+
+    public enum EnableAmendmentFlags
+    {
+        tfGotMajority = 65536,
+        tfLostMajority = 131072
     }
 }

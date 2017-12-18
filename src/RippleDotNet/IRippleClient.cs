@@ -36,16 +36,36 @@ namespace RippleDotNet
 
         Task<AccountInfo> AccountInfo(AccountInfoRequest request);
 
+        /// <summary>
+        /// The account_lines method returns information about an account's trust lines, including balances in all non-XRP currencies and assets.
+        /// </summary>
+        /// <param name="account">The account number to query.</param>
+        /// <returns>An <see cref="RippleDotNet.Model.Accounts.AccountLines"/> response.</returns>
         Task<AccountLines> AccountLines(string account);
 
+        /// <summary>
+        /// The account_lines method returns information about an account's trust lines, including balances in all non-XRP currencies and assets.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>An <see cref="RippleDotNet.Model.Accounts.AccountLines"/> response.</returns>
         Task<AccountLines> AccountLines(AccountLinesRequest request);
 
         Task<AccountOffers> AccountOffers(string account);
 
         Task<AccountOffers> AccountOffers(AccountOffersRequest request);
 
+        /// <summary>
+        /// The AccountObjects command returns the raw ledger format for all objects owned by an account. For a higher-level view of an account's trust lines and balances, see <see cref="RippleDotNet.Model.Accounts.AccountLines"/> instead.
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns>An <see cref="RippleDotNet.Model.Accounts.AccountObjects"/> response.</returns>
         Task<AccountObjects> AccountObjects(string account);
 
+        /// <summary>
+        /// The AccountObjects command returns the raw ledger format for all objects owned by an account. For a higher-level view of an account's trust lines and balances, see <see cref="RippleDotNet.Model.Accounts.AccountLines"/> instead.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>An <see cref="RippleDotNet.Model.Accounts.AccountObjects"/> response.</returns>
         Task<AccountObjects> AccountObjects(AccountObjectsRequest request);
 
         Task<AccountTransactions> AccountTransactions(string account);
@@ -74,6 +94,8 @@ namespace RippleDotNet
         Task<Submit> SubmitTransactionBlob(SubmitBlobRequest request);
 
         Task<Submit> SubmitTransaction(SubmitRequest request);
+
+        Task<BookOffers> BookOffers(BookOffersRequest request);
     }
 
     public class RippleClient : IRippleClient
@@ -120,8 +142,7 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(object);
-            taskInfo.RemoveUponCompletion = true;
-
+            
             tasks.TryAdd(request.Id, taskInfo);
             
             client.SendMessage(command);
@@ -143,8 +164,7 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(AccountCurrencies);
-            taskInfo.RemoveUponCompletion = true;
-
+            
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -166,8 +186,7 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(AccountChannels);
-            taskInfo.RemoveUponCompletion = true;
-
+            
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -189,8 +208,7 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(AccountInfo);
-            taskInfo.RemoveUponCompletion = true;
-
+            
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -212,8 +230,7 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(AccountLines);
-            taskInfo.RemoveUponCompletion = true;
-
+            
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -235,8 +252,7 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(AccountOffers);
-            taskInfo.RemoveUponCompletion = true;
-
+            
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -258,8 +274,7 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(AccountObjects);
-            taskInfo.RemoveUponCompletion = true;
-
+            
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -281,8 +296,7 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(AccountTransactions);
-            taskInfo.RemoveUponCompletion = true;
-
+            
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -304,8 +318,7 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(NoRippleCheck);
-            taskInfo.RemoveUponCompletion = true;
-
+            
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -327,8 +340,7 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(GatewayBalances);
-            taskInfo.RemoveUponCompletion = true;
-
+            
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -350,8 +362,7 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(BaseTransaction);
-            taskInfo.RemoveUponCompletion = true;
-
+            
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -370,8 +381,7 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(ServerInfo);
-            taskInfo.RemoveUponCompletion = true;
-
+            
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -390,8 +400,7 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(Fee);
-            taskInfo.RemoveUponCompletion = true;
-
+            
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -407,8 +416,7 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(ChannelAuthorize);
-            taskInfo.RemoveUponCompletion = true;
-
+            
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -424,8 +432,7 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(ChannelVerify);
-            taskInfo.RemoveUponCompletion = true;
-
+            
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -441,8 +448,7 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(Submit);
-            taskInfo.RemoveUponCompletion = true;
-
+            
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
@@ -458,8 +464,23 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(Submit);
-            taskInfo.RemoveUponCompletion = true;
+            
+            tasks.TryAdd(request.Id, taskInfo);
 
+            client.SendMessage(command);
+            return task.Task;
+        }
+
+        public Task<BookOffers> BookOffers(BookOffersRequest request)
+        {
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<BookOffers> task = new TaskCompletionSource<BookOffers>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request.Id;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(BookOffers);
+            
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);

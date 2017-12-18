@@ -8,10 +8,13 @@ namespace RippleDotNet.Model.Transactions.TransactionTypes
         public TrustSetTransaction()
         {
             TransactionType = TransactionType.TrustSet;
+            Flags = TrustSetFlags.tfFullyCanonicalSig | TrustSetFlags.tfSetNoRipple;
         }
 
+        public new TrustSetFlags? Flags { get; set; }
+
         [JsonConverter(typeof(CurrencyConverter))]
-        public object LimitAmount {get; set; }
+        public Currency LimitAmount {get; set; }
 
         public uint? QualityIn { get; set; }
 

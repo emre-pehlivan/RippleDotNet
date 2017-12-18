@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RippleDotNet.Model;
 
 namespace RippleDotNet.Json.Converters
@@ -8,12 +9,23 @@ namespace RippleDotNet.Json.Converters
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if (value is string)
-                writer.WriteValue(value);
+            if (value is Currency)
+            {
+                Currency currency = (Currency) value;
+                if (currency.CurrencyCode == "XRP")
+                {
+                    writer.WriteValue(currency.Value);
+                }
+                else
+                {
+                    JToken t = JToken.FromObject(value);
+                    t.WriteTo(writer);
+                }
+            }
             else
             {
-                
-            }            
+                throw new NotSupportedException("Cannot write this object type");
+            }
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
@@ -24,7 +36,10 @@ namespace RippleDotNet.Json.Converters
 
             if (reader.TokenType == JsonToken.String)
             {
-                return reader.Value;
+                Currency currency = new Currency();
+                currency.CurrencyCode = "XRP";
+                currency.Value = reader.Value.ToString();
+                return currency;
             }
 
             if (reader.TokenType == JsonToken.StartObject)
@@ -32,12 +47,12 @@ namespace RippleDotNet.Json.Converters
                 return serializer.Deserialize<Currency>(reader);
             }
 
-            throw new Exception("Cannot convert value");
+            throw new NotSupportedException("Cannot convert value " + objectType);
         }
 
         public override bool CanConvert(Type objectType)
         {
-            if (objectType == typeof(string) || objectType == typeof(Currency))
+            if (objectType == typeof(Currency))
                 return true;
             return false;
         }

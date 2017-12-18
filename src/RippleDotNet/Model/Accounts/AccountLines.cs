@@ -32,14 +32,23 @@ namespace RippleDotNet.Model.Accounts
         [JsonProperty("balance")]
         public string Balance { get; set; }
 
+        [JsonIgnore]
+        public decimal BalanceAsNumber => decimal.Parse(Balance);
+
         [JsonProperty("currency")]
         public string Currency { get; set; }
 
         [JsonProperty("limit")]
         public string Limit { get; set; }
 
+        [JsonIgnore]
+        public decimal LimitAsNumber => decimal.Parse(Limit);
+
         [JsonProperty("limit_peer")]
         public string LimitPeer { get; set; }
+
+        [JsonIgnore]
+        public decimal LimitPeerAsNumber => decimal.Parse(LimitPeer);
 
         [JsonProperty("quality_in")]
         public uint QualityIn { get; set; }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
 using Newtonsoft.Json;
 using RippleDotNet.Json.Converters;
 
@@ -14,17 +11,17 @@ namespace RippleDotNet.Model.Ledger
             LedgerEntryType = LedgerEntryType.Offer;
         }
 
-        public OfferFlags Flags { get; set; }
-
         public string Account { get; set; }
 
+        public OfferFlags Flags { get; set; }
+        
         public uint Sequence { get; set; }
 
         [JsonConverter(typeof(CurrencyConverter))]
-        public object TakerPays { get; set; }
+        public Currency TakerPays { get; set; }
 
         [JsonConverter(typeof(CurrencyConverter))]
-        public object TakerGets { get; set; }
+        public Currency TakerGets { get; set; }
 
         public string BookDirectory { get; set; }
 
