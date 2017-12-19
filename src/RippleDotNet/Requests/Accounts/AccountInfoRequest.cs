@@ -2,7 +2,7 @@
 
 namespace RippleDotNet.Requests.Accounts
 {
-    public class AccountInfoRequest : LedgerRequest
+    public class AccountInfoRequest : BaseLedgerRequest
     {
         public AccountInfoRequest(string account)
         {

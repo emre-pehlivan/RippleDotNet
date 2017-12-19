@@ -3,7 +3,7 @@ using RippleDotNet.Json.Converters;
 
 namespace RippleDotNet.Requests.Accounts
 {
-    public class GatewayBalancesRequest : LedgerRequest
+    public class GatewayBalancesRequest : BaseLedgerRequest
     {
         public GatewayBalancesRequest(string account)
         {

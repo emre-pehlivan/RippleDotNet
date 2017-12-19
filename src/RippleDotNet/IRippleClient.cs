@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RippleDotNet.Exceptions;
 using RippleDotNet.Model.Accounts;
+using RippleDotNet.Model.Ledger;
 using RippleDotNet.Model.Server;
 using RippleDotNet.Model.Transactions;
 using RippleDotNet.Model.Transactions.TransactionTypes;
 using RippleDotNet.Requests;
 using RippleDotNet.Requests.Accounts;
+using RippleDotNet.Requests.Ledger;
 using RippleDotNet.Requests.Transactions;
 using RippleDotNet.Responses;
 
 namespace RippleDotNet
 {
-    public interface IRippleClient : IDisposable
+    public interface IRippleClient
     {
         void Connect();
 
@@ -96,6 +98,8 @@ namespace RippleDotNet
         Task<Submit> SubmitTransaction(SubmitRequest request);
 
         Task<BookOffers> BookOffers(BookOffersRequest request);
+
+        Task<Ledger> Ledger(LedgerRequest request);
     }
 
     public class RippleClient : IRippleClient
@@ -177,7 +181,7 @@ namespace RippleDotNet
             return AccountChannels(request);
         }
 
-        public Task<AccountChannels> AccountChannels(AccountChannelsRequest request)
+        public Task<AccountChannels> AccountChannels(Requests.Accounts.AccountChannelsRequest request)
         {
             var command = JsonConvert.SerializeObject(request, serializerSettings);
             TaskCompletionSource<AccountChannels> task = new TaskCompletionSource<AccountChannels>();
@@ -487,6 +491,22 @@ namespace RippleDotNet
             return task.Task;
         }
 
+        public Task<Ledger> Ledger(LedgerRequest request)
+        {
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<Ledger> task = new TaskCompletionSource<Ledger>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request.Id;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(Ledger);
+
+            tasks.TryAdd(request.Id, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+
         private void Error(Exception ex, WebSocketClient client)
         {
             throw new Exception(ex.Message, ex);            
@@ -520,11 +540,6 @@ namespace RippleDotNet
 
                 tasks.TryRemove(response.Id, out taskInfo);
             }                        
-        }
-
-        public void Dispose()
-        {
-            client?.Dispose();
-        }
+        }        
     }
 }

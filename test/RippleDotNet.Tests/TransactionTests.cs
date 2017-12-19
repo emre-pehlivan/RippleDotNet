@@ -21,7 +21,8 @@ namespace RippleDotNet.Tests
         private static IRippleClient client;
         private static JsonSerializerSettings serializerSettings;
 
-        private static string serverUrl = "wss://s.altnet.rippletest.net:51233";
+        //private static string serverUrl = "wss://s.altnet.rippletest.net:51233";
+        private static string serverUrl = "wss://s1.ripple.com:443";
         //private static string serverUrl = "wss://s2.ripple.com:443";
 
         public TestContext TestContext { get; set; }
@@ -50,13 +51,10 @@ namespace RippleDotNet.Tests
         [TestMethod]
         public async Task CanGetTransactions()
         {
-            using (IRippleClient rippleClient = new RippleClient("wss://s1.ripple.com:443"))
-            {
-                rippleClient.Connect();
-                var transactions = await rippleClient.AccountTransactions("rho3u4kXc5q3chQFKfn9S1ZqUCya1xT3t4");
-                Console.WriteLine(transactions.Transactions.Count);
-            }
-            
+            RippleClient rippleClient = new RippleClient("wss://s1.ripple.com:443");
+            rippleClient.Connect();
+            var transactions = await rippleClient.AccountTransactions("rPGKpTsgSaQiwLpEekVj1t5sgYJiqf2HDC");
+            Console.WriteLine(transactions.Transactions.Count);
         }
 
         [TestMethod]
@@ -150,28 +148,26 @@ namespace RippleDotNet.Tests
         [TestMethod]
         public async Task CanGetBookOffers()
         {
-            using (IRippleClient rippleClient = new RippleClient("wss://s1.ripple.com:443"))
+            IRippleClient rippleClient = new RippleClient("wss://s1.ripple.com:443");
+            rippleClient.Connect();
+            BookOffersRequest request = new BookOffersRequest();
+
+            request.TakerGets = new Currency { CurrencyCode = "EUR", Issuer = "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq" };
+            request.TakerPays = new Currency();
+
+            //request.TakerGets = new Currency();
+            //request.TakerPays = new Currency { CurrencyCode = "EUR", Issuer = "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq" };
+
+            request.Limit = 10;
+
+            var offers = await rippleClient.BookOffers(request);
+
+            foreach (var bookOffer in offers.Offers)
             {
-                rippleClient.Connect();
-                BookOffersRequest request = new BookOffersRequest();
-
-                request.TakerGets = new Currency { CurrencyCode = "EUR", Issuer = "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq" };
-                request.TakerPays = new Currency();
-
-                //request.TakerGets = new Currency();
-                //request.TakerPays = new Currency { CurrencyCode = "EUR", Issuer = "rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq" };
-
-                request.Limit = 10;
-
-                var offers = await rippleClient.BookOffers(request);
-
-                foreach (var bookOffer in offers.Offers)
-                {
-                    Debug.WriteLine(bookOffer.Account);
-                }
-
-                Assert.IsNotNull(offers);
+                Debug.WriteLine(bookOffer.Account);
             }
+
+            Assert.IsNotNull(offers);
         }
 
         [TestMethod]
@@ -241,5 +237,33 @@ namespace RippleDotNet.Tests
             Assert.IsNotNull(result.Transaction.Hash);
         }
 
+        [TestMethod]
+        public async Task CanDeleteTrust()
+        {
+            AccountInfo accountInfo = await client.AccountInfo("rho3u4kXc5q3chQFKfn9S1ZqUCya1xT3t4");
+
+            TrustSetTransaction trustSet = new TrustSetTransaction();
+            trustSet.Flags = TrustSetFlags.tfSetNoRipple | TrustSetFlags.tfFullyCanonicalSig;
+            trustSet.Account = "rho3u4kXc5q3chQFKfn9S1ZqUCya1xT3t4";
+            trustSet.LimitAmount = new Currency {ValueAsNumber = 0, Issuer = "rDLXQ8KEBn3Aw313bGzhEemx8cCPpGha3d", CurrencyCode = "PHP"};
+            trustSet.QualityIn = 0;
+            trustSet.QualityOut = 0;
+            trustSet.Sequence = accountInfo.AccountData.Sequence;
+            trustSet.Fee = new Currency {Value = "12"};
+
+            var json = trustSet.ToString();
+            TxSigner signer = TxSigner.FromSecret("xxxxxxx");
+            SignedTx signedTx = signer.SignJson(JObject.Parse(json));
+
+            SubmitBlobRequest request = new SubmitBlobRequest();
+            request.TransactionBlob = signedTx.TxBlob;
+
+            Submit result = await client.SubmitTransactionBlob(request);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("tesSUCCESS", result.EngineResult);
+            Assert.IsNotNull(result.Transaction.Hash);
+
+        }
+       
     }
 }

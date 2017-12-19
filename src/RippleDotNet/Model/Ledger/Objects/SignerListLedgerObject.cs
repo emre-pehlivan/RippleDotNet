@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace RippleDotNet.Model.Ledger
+namespace RippleDotNet.Model.Ledger.Objects
 {
     public class SignerListLedgerObject : BaseRippleLedgerObject
     {

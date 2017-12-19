@@ -4,7 +4,7 @@ using RippleDotNet.Model;
 
 namespace RippleDotNet.Requests.Accounts
 {
-    public class NoRippleCheckRequest : LedgerRequest
+    public class NoRippleCheckRequest : BaseLedgerRequest
     {
         public NoRippleCheckRequest(string account)
         {

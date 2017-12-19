@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace RippleDotNet.Requests.Accounts
 {
-    public class AccountChannelsRequest : LedgerRequest
+    public class AccountChannelsRequest : BaseLedgerRequest
     {
         public AccountChannelsRequest(string account)
         {

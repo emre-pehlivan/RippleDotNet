@@ -1,4 +1,4 @@
-﻿namespace RippleDotNet.Model.Ledger
+﻿namespace RippleDotNet.Model.Ledger.Objects
 {
     public class FeeSettingsLedgerObject : BaseRippleLedgerObject
     {

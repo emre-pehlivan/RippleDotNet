@@ -6,7 +6,7 @@ using RippleDotNet.Model;
 
 namespace RippleDotNet.Requests.Transactions
 {
-    public class BookOffersRequest : LedgerRequest
+    public class BookOffersRequest : BaseLedgerRequest
     {
         public BookOffersRequest()
         {

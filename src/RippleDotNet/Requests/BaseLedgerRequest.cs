@@ -3,11 +3,11 @@ using Newtonsoft.Json;
 
 namespace RippleDotNet.Requests
 {
-    public class LedgerRequest : RippleRequest
+    public class BaseLedgerRequest : RippleRequest
     {
-        public LedgerRequest() { }
+        public BaseLedgerRequest() { }
 
-        public LedgerRequest(Guid requestId) : base(requestId){ }
+        public BaseLedgerRequest(Guid requestId) : base(requestId){ }
 
         [JsonProperty("ledger_hash")]
         public string LedgerHash { get; set; }

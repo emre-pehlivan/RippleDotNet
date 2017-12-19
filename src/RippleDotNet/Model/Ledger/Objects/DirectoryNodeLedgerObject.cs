@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace RippleDotNet.Model.Ledger
+namespace RippleDotNet.Model.Ledger.Objects
 {
     public class DirectoryNodeLedgerObject : BaseRippleLedgerObject
     {

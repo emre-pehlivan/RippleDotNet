@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Converters;
 using RippleDotNet.Json.Converters;
 
-namespace RippleDotNet.Model.Ledger
+namespace RippleDotNet.Model.Ledger.Objects
 {
     [JsonConverter(typeof(LedgerObjectConverter))]
     public class BaseRippleLedgerObject

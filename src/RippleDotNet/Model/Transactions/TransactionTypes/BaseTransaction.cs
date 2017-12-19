@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using RippleDotNet.Extensions;
 using RippleDotNet.Json.Converters;
 
 namespace RippleDotNet.Model.Transactions.TransactionTypes
@@ -80,9 +81,18 @@ namespace RippleDotNet.Model.Transactions.TransactionTypes
     {
         public string MemoData { get; set; }
 
+        [JsonIgnore]
+        public string MemoDataAsText => MemoData.FromHexString();
+
         public string MemoFormat { get; set; }
 
+        [JsonIgnore]
+        public string MemoFormatAsText => MemoFormat.FromHexString();
+
         public string MemoType { get; set; }
+
+        [JsonIgnore]
+        public string MemoTypeAsText => MemoType.FromHexString();
     }
 
     public class Signer

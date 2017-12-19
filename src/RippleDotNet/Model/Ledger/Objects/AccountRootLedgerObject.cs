@@ -4,7 +4,7 @@ using System.Text;
 using Newtonsoft.Json;
 using RippleDotNet.Json.Converters;
 
-namespace RippleDotNet.Model.Ledger
+namespace RippleDotNet.Model.Ledger.Objects
 {
     public class AccountRootLedgerObject : BaseRippleLedgerObject
     {
