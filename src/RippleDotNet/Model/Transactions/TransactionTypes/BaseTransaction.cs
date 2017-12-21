@@ -14,7 +14,7 @@ namespace RippleDotNet.Model.Transactions.TransactionTypes
 
         public BaseTransaction()
         {
-            Fee = new Currency {Value = "10000"};
+            Fee = new Currency {Value = "10"};
         }
 
         public string Account { get; set; }

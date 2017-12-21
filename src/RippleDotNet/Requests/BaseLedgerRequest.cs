@@ -1,5 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
+using RippleDotNet.Json.Converters;
+using RippleDotNet.Model;
 
 namespace RippleDotNet.Requests
 {
@@ -13,6 +15,7 @@ namespace RippleDotNet.Requests
         public string LedgerHash { get; set; }
 
         [JsonProperty("ledger_index")]
-        public object LedgerIndex { get; set; }
+        [JsonConverter(typeof(LedgerIndexConverter))]
+        public LedgerIndex LedgerIndex { get; set; }
     }
 }

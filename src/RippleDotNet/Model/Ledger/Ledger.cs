@@ -38,9 +38,7 @@ namespace RippleDotNet.Model.Ledger
         {
             get
             {
-                //Ripple.Core.Types.StObject stObject = Ripple.Core.Types.StObject.FromHex(LedgerData);
-                //Console.WriteLine(stObject.ToString());
-                return "";
+                throw new NotImplementedException();
             }
         }
 
@@ -82,7 +80,7 @@ namespace RippleDotNet.Model.Ledger
         public string TransactionHash { get; set; }
 
         [JsonProperty("transactions")]
-        public List<BaseTransaction> Transactions { get; set; }
+        public List<HashOrTransaction> Transactions { get; set; }
     }
 
     public class QueuedTransaction

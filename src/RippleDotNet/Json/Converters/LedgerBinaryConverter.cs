@@ -17,7 +17,7 @@ namespace RippleDotNet.Json.Converters
 
         public object Create(Type objectType, JObject jObject)
         {
-            JToken ledgerDataToken = jObject.Property("ledger_data").Value;
+            JToken ledgerDataToken = jObject.Property("ledger_data");
             if (ledgerDataToken == null)
             {
                 return new LedgerEntity();

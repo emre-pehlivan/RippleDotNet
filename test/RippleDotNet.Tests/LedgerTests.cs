@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RippleDotNet.Model.Ledger;
+using RippleDotNet.Model;
 using RippleDotNet.Requests.Ledger;
 
 namespace RippleDotNet.Tests
@@ -26,15 +23,11 @@ namespace RippleDotNet.Tests
         public async Task CanGetLedger()
         {
             //binary format
-            var request = new LedgerRequest {LedgerIndex = "validated", Transactions = true, Expand = true, Binary = true};
+            var request = new LedgerRequest {LedgerIndex = new LedgerIndex(LedgerIndexType.Validated), Transactions = true, Expand = true, Binary = true};
             //var request = new LedgerRequest {LedgerIndex = "current", Queue = true};
 
             var ledger = await client.Ledger(request);
-            if (ledger.LedgerEntity is LedgerBinaryEntity)
-            {
-                LedgerBinaryEntity binaryEntity = (LedgerBinaryEntity) ledger.LedgerEntity;
-                Console.WriteLine(binaryEntity.HydratedLedger);
-            }
+            
             Assert.IsNotNull(ledger);
         }
     }

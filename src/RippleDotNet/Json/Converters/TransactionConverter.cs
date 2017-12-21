@@ -14,8 +14,11 @@ namespace RippleDotNet.Json.Converters
 
         public BaseTransaction Create(Type objectType, JObject jObject)
         {
-            string transactionType = jObject.Property("TransactionType").Value.ToString();
-            switch (transactionType)
+            JProperty transactionType = jObject.Property("TransactionType");
+            if (transactionType == null)
+                return new BaseTransaction();
+
+            switch (transactionType.Value.ToString())
             {
                 case "AccountSet":
                     return new AccountSetTransaction();
@@ -55,9 +58,9 @@ namespace RippleDotNet.Json.Converters
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             JObject jObject = JObject.Load(reader);
-            var target = Create(objectType, jObject);
-            serializer.Populate(jObject.CreateReader(), target);
-            return target;            
+            BaseTransaction baseTransaction = Create(objectType, jObject);
+            serializer.Populate(jObject.CreateReader(), baseTransaction);
+            return baseTransaction;            
         }
 
         public override bool CanConvert(Type objectType)

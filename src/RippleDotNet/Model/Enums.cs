@@ -165,4 +165,14 @@ namespace RippleDotNet.Model
         tfGotMajority = 65536,
         tfLostMajority = 131072
     }
+
+    public enum LedgerIndexType
+    {
+        [EnumMember(Value = "current")]
+        Current,
+        [EnumMember(Value = "closed")]
+        Closed,
+        [EnumMember(Value = "validated")]
+        Validated
+    }
 }
