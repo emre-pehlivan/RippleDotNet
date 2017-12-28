@@ -1,14 +1,14 @@
 ﻿using Newtonsoft.Json;
 using RippleDotNet.Json.Converters;
-using RippleDotNet.Model.Transactions.TransactionTypes;
+using RippleDotNet.Model.Transaction.TransactionTypes;
 
 namespace RippleDotNet.Model.Ledger
 {
-    [JsonConverter(typeof(HashOrTransactionConverter))]
+    [JsonConverter(typeof(TransactionOrHashConverter))]
     public class HashOrTransaction
     {
         public string TransactionHash { get; set; }
 
-        public BaseTransaction Transaction { get; set; }
+        public TransactionCommon Transaction { get; set; }
     }
 }

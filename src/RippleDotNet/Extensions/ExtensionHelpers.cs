@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using System.Web;
 
 namespace RippleDotNet.Extensions
 {
@@ -27,7 +28,7 @@ namespace RippleDotNet.Extensions
                 .Where(x => x % 2 == 0)
                 .Select(x => Convert.ToByte(input.Substring(x, 2), 16))
                 .ToArray();
-            return Encoding.ASCII.GetString(bytes);
+            return HttpUtility.HtmlEncode(Encoding.ASCII.GetString(bytes));
         }
     }
 }

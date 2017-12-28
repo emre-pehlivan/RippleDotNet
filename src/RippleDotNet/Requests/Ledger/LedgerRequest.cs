@@ -10,13 +10,13 @@ namespace RippleDotNet.Requests.Ledger
         }
 
         /// <summary>
-        /// Admin is required
+        /// Admin is required for this property
         /// </summary>
         [JsonProperty("full")]
         public bool? Full { get; set; }
 
         /// <summary>
-        /// Admin is required
+        /// Admin is required for this property
         /// </summary>
         [JsonProperty("accounts")]
         public bool? Accounts { get; set; }

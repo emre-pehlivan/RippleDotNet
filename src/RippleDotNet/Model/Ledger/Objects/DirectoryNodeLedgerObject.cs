@@ -16,9 +16,9 @@ namespace RippleDotNet.Model.Ledger.Objects
 
         public List<string> Indexes { get; set; }
 
-        public ulong IndexNext { get; set; }
+        public string IndexNext { get; set; }
 
-        public ulong IndexPrevious { get; set; }
+        public string IndexPrevious { get; set; }
 
         public string Owner { get; set; }
 

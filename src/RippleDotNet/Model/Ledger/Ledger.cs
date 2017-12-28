@@ -2,21 +2,16 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using RippleDotNet.Json.Converters;
-using RippleDotNet.Model.Transactions.TransactionTypes;
+using RippleDotNet.Model.Transaction;
+
 
 namespace RippleDotNet.Model.Ledger
 {
-    public class Ledger
+    public class Ledger : BaseLedgerInfo
     {
         [JsonProperty("ledger")]
         [JsonConverter(typeof(LedgerBinaryConverter))]
         public BaseLedgerEntity LedgerEntity { get; set; }
-
-        [JsonProperty("ledger_hash")]
-        public string LedgerHash { get; set; }
-
-        [JsonProperty("ledger_index")]
-        public ulong LedgerIndex { get; set; }
 
         [JsonProperty("queue_data")]
         public List<QueuedTransaction> QueueData { get; set; }
@@ -30,17 +25,8 @@ namespace RippleDotNet.Model.Ledger
 
     public class LedgerBinaryEntity : BaseLedgerEntity
     {
-
         [JsonProperty("ledger_data")]
         public string LedgerData { get; set; }
-
-        public dynamic HydratedLedger
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
 
         [JsonProperty("transactions")]
         public List<BinaryTransaction> Transactions { get; set; }

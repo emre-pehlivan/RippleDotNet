@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RippleDotNet.Model;
 using RippleDotNet.Model.Ledger;
 
 namespace RippleDotNet.Json.Converters
@@ -35,7 +32,7 @@ namespace RippleDotNet.Json.Converters
 
         public override bool CanConvert(Type objectType)
         {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }

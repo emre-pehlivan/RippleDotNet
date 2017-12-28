@@ -2,7 +2,6 @@
 {
     public class LedgerIndex
     {
-
         public LedgerIndex(uint index)
         {
             Index = index;

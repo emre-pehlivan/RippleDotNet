@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RippleDotNet", "src\RippleDotNet\RippleDotNet.csproj", "{D7F9066A-E648-4DC7-BB07-0D9A80B1E920}"
 EndProject

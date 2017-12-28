@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <Folder Include="Model\Subscriptions\" />
-    <Folder Include="Requests\Subscriptions\" />
+    <Folder Include="Requests\Subscription\" />
     <Folder Include="Requests\Server\" />
   </ItemGroup>
 

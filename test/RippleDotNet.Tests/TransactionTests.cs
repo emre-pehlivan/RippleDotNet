@@ -8,10 +8,13 @@ using Ripple.TxSigning;
 using RippleDotNet.Extensions;
 using RippleDotNet.Json.Converters;
 using RippleDotNet.Model;
-using RippleDotNet.Model.Accounts;
-using RippleDotNet.Model.Transactions;
-using RippleDotNet.Model.Transactions.TransactionTypes;
-using RippleDotNet.Requests.Transactions;
+using RippleDotNet.Model.Account;
+using RippleDotNet.Model.Transaction;
+using RippleDotNet.Model.Transaction.Interfaces;
+using RippleDotNet.Model.Transaction.TransactionTypes;
+using RippleDotNet.Requests.Ledger;
+using RippleDotNet.Requests.Transaction;
+using RippleDotNet.Responses.Transaction.Interfaces;
 
 namespace RippleDotNet.Tests
 {
@@ -22,8 +25,10 @@ namespace RippleDotNet.Tests
         private static JsonSerializerSettings serializerSettings;
 
         //private static string serverUrl = "wss://s.altnet.rippletest.net:51233";
-        private static string serverUrl = "wss://s1.ripple.com:443";
-        //private static string serverUrl = "wss://s2.ripple.com:443";
+        
+        
+        //private static string serverUrl = "wss://s1.ripple.com:443";
+        private static string serverUrl = "wss://s2.ripple.com:443";
 
         public TestContext TestContext { get; set; }
 
@@ -44,8 +49,17 @@ namespace RippleDotNet.Tests
         [TestMethod]
         public async Task CanGetTransaction()
         {
-            var transaction = await client.Transaction("A239682E0A17971BDD6CD8D76A0079317B99060C5B08BD9BF16613D5DDB7F251");
+            //transaction on mainnet
+            ITransactionResponseCommon transaction = await client.Transaction("5FF261E0E463EF3CA9E2BD4F0754E398A3DBAADF71A3911190C5F9A1241ED403");
             Assert.IsNotNull(transaction);           
+        }
+
+        [TestMethod]
+        public async Task CanGetTransactionAsBinary()
+        {
+            //transaction on mainnet
+            IBaseTransactionResponse transaction = await client.TransactionAsBinary("5FF261E0E463EF3CA9E2BD4F0754E398A3DBAADF71A3911190C5F9A1241ED403");            
+            Assert.IsNotNull(transaction);
         }
 
         [TestMethod]
@@ -71,18 +85,20 @@ namespace RippleDotNet.Tests
         [TestMethod]
         public void CanCreatePaymentTransaction()
         {
-            PaymentTransaction paymentTransaction = new PaymentTransaction();
+            IPaymentTransaction paymentTransaction = new PaymentTransaction();
             paymentTransaction.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
             paymentTransaction.Destination = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT";
             paymentTransaction.Amount = new Currency{ ValueAsXrp = 1 };
-           
-            Console.WriteLine(paymentTransaction.ToString());
+
+            const string expectedResult = "{\"Amount\":\"1000000\",\"Destination\":\"rEqtEHKbinqm18wQSQGstmqg9SFpUELasT\",\"Flags\":2147483648,\"Account\":\"rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V\",\"TransactionType\":\"Payment\"}";
+            
+            Assert.AreEqual(expectedResult, paymentTransaction.ToString());            
         }
 
         [TestMethod]
         public async Task CanSignAndSubmitPaymentTransaction()
         {
-            PaymentTransaction paymentTransaction = new PaymentTransaction();
+            IPaymentTransaction paymentTransaction = new PaymentTransaction();
             paymentTransaction.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
             paymentTransaction.Destination = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT";
             paymentTransaction.Amount = new Currency { ValueAsXrp = 1 };
@@ -102,8 +118,8 @@ namespace RippleDotNet.Tests
         public async Task CanSubmitPaymentTransaction()
         {
             AccountInfo accountInfo = await client.AccountInfo("rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V");
-            
-            PaymentTransaction paymentTransaction = new PaymentTransaction();
+
+            IPaymentTransaction paymentTransaction = new PaymentTransaction();
             paymentTransaction.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
             paymentTransaction.Destination = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT";
             paymentTransaction.Amount = new Currency { ValueAsXrp = 1};
@@ -127,7 +143,7 @@ namespace RippleDotNet.Tests
         {
             AccountInfo accountInfo = await client.AccountInfo("rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V");
 
-            TrustSetTransaction trustSet = new TrustSetTransaction();
+            ITrustSetTransaction trustSet = new TrustSetTransaction();
             trustSet.LimitAmount = new Currency{CurrencyCode = "XYZ", Issuer = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT", Value = "1000000"};
             trustSet.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
             trustSet.Sequence = accountInfo.AccountData.Sequence;
@@ -176,7 +192,7 @@ namespace RippleDotNet.Tests
 
             AccountInfo accountInfo = await client.AccountInfo("rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V");
 
-            OfferCreateTransaction offerCreate = new OfferCreateTransaction();
+            IOfferCreateTransaction offerCreate = new OfferCreateTransaction();
             offerCreate.Sequence = accountInfo.AccountData.Sequence;
             offerCreate.TakerGets = new Currency {ValueAsXrp = 10};
             offerCreate.TakerPays = new Currency{CurrencyCode = "XYZ", Issuer = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT", Value = "10"};
@@ -217,7 +233,7 @@ namespace RippleDotNet.Tests
         {
             AccountInfo accountInfo = await client.AccountInfo("rEqtEHKbinqm18wQSQGstmqg9SFpUELasT");
 
-            OfferCreateTransaction offerCreate = new OfferCreateTransaction();
+            IOfferCreateTransaction offerCreate = new OfferCreateTransaction();
             offerCreate.Sequence = accountInfo.AccountData.Sequence;
             offerCreate.TakerGets = new Currency { CurrencyCode = "XYZ", Issuer = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT", Value = "10" };
             offerCreate.TakerPays = new Currency { ValueAsXrp = 10 };
@@ -242,7 +258,7 @@ namespace RippleDotNet.Tests
         {
             AccountInfo accountInfo = await client.AccountInfo("rho3u4kXc5q3chQFKfn9S1ZqUCya1xT3t4");
 
-            TrustSetTransaction trustSet = new TrustSetTransaction();
+            ITrustSetTransaction trustSet = new TrustSetTransaction();
             trustSet.Flags = TrustSetFlags.tfSetNoRipple | TrustSetFlags.tfFullyCanonicalSig;
             trustSet.Account = "rho3u4kXc5q3chQFKfn9S1ZqUCya1xT3t4";
             trustSet.LimitAmount = new Currency {ValueAsNumber = 0, Issuer = "rDLXQ8KEBn3Aw313bGzhEemx8cCPpGha3d", CurrencyCode = "PHP"};

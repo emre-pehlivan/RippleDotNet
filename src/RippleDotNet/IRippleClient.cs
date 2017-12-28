@@ -5,16 +5,22 @@ using System.Net.WebSockets;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RippleDotNet.Exceptions;
-using RippleDotNet.Model.Accounts;
+using RippleDotNet.Model.Account;
 using RippleDotNet.Model.Ledger;
 using RippleDotNet.Model.Server;
-using RippleDotNet.Model.Transactions;
-using RippleDotNet.Model.Transactions.TransactionTypes;
+using RippleDotNet.Model.Transaction.TransactionTypes;
 using RippleDotNet.Requests;
-using RippleDotNet.Requests.Accounts;
+using RippleDotNet.Requests.Account;
 using RippleDotNet.Requests.Ledger;
-using RippleDotNet.Requests.Transactions;
+using RippleDotNet.Requests.Transaction;
 using RippleDotNet.Responses;
+using RippleDotNet.Responses.Transaction;
+using RippleDotNet.Responses.Transaction.Interfaces;
+using RippleDotNet.Responses.Transaction.TransactionTypes;
+using BookOffers = RippleDotNet.Model.Transaction.BookOffers;
+using ChannelAuthorize = RippleDotNet.Model.Transaction.ChannelAuthorize;
+using ChannelVerify = RippleDotNet.Model.Transaction.ChannelVerify;
+using Submit = RippleDotNet.Model.Transaction.Submit;
 
 namespace RippleDotNet
 {
@@ -42,14 +48,14 @@ namespace RippleDotNet
         /// The account_lines method returns information about an account's trust lines, including balances in all non-XRP currencies and assets.
         /// </summary>
         /// <param name="account">The account number to query.</param>
-        /// <returns>An <see cref="RippleDotNet.Model.Accounts.AccountLines"/> response.</returns>
+        /// <returns>An <see cref="Model.Account.AccountLines"/> response.</returns>
         Task<AccountLines> AccountLines(string account);
 
         /// <summary>
         /// The account_lines method returns information about an account's trust lines, including balances in all non-XRP currencies and assets.
         /// </summary>
         /// <param name="request"></param>
-        /// <returns>An <see cref="RippleDotNet.Model.Accounts.AccountLines"/> response.</returns>
+        /// <returns>An <see cref="Model.Account.AccountLines"/> response.</returns>
         Task<AccountLines> AccountLines(AccountLinesRequest request);
 
         Task<AccountOffers> AccountOffers(string account);
@@ -57,17 +63,17 @@ namespace RippleDotNet
         Task<AccountOffers> AccountOffers(AccountOffersRequest request);
 
         /// <summary>
-        /// The AccountObjects command returns the raw ledger format for all objects owned by an account. For a higher-level view of an account's trust lines and balances, see <see cref="RippleDotNet.Model.Accounts.AccountLines"/> instead.
+        /// The AccountObjects command returns the raw ledger format for all objects owned by an account. For a higher-level view of an account's trust lines and balances, see <see cref="Model.Account.AccountLines"/> instead.
         /// </summary>
         /// <param name="account"></param>
-        /// <returns>An <see cref="RippleDotNet.Model.Accounts.AccountObjects"/> response.</returns>
+        /// <returns>An <see cref="Model.Account.AccountObjects"/> response.</returns>
         Task<AccountObjects> AccountObjects(string account);
 
         /// <summary>
-        /// The AccountObjects command returns the raw ledger format for all objects owned by an account. For a higher-level view of an account's trust lines and balances, see <see cref="RippleDotNet.Model.Accounts.AccountLines"/> instead.
+        /// The AccountObjects command returns the raw ledger format for all objects owned by an account. For a higher-level view of an account's trust lines and balances, see <see cref="Model.Account.AccountLines"/> instead.
         /// </summary>
         /// <param name="request"></param>
-        /// <returns>An <see cref="RippleDotNet.Model.Accounts.AccountObjects"/> response.</returns>
+        /// <returns>An <see cref="Model.Account.AccountObjects"/> response.</returns>
         Task<AccountObjects> AccountObjects(AccountObjectsRequest request);
 
         Task<AccountTransactions> AccountTransactions(string account);
@@ -82,11 +88,12 @@ namespace RippleDotNet
 
         Task<GatewayBalances> GatewayBalances(GatewayBalancesRequest request);
 
-        Task<BaseTransaction> Transaction(string transaction);
+        Task<ITransactionResponseCommon> Transaction(string transaction);
 
-        Task<BaseTransaction> Transaction(TransactionRequest request);
+        Task<IBaseTransactionResponse> TransactionAsBinary(string transaction);
 
         Task<ServerInfo> ServerInfo();
+
         Task<Fee> Fees();
 
         Task<ChannelAuthorize> ChannelAuthorize(ChannelAuthorizeRequest request);
@@ -100,6 +107,12 @@ namespace RippleDotNet
         Task<BookOffers> BookOffers(BookOffersRequest request);
 
         Task<Ledger> Ledger(LedgerRequest request);
+
+        Task<BaseLedgerInfo> ClosedLedger();
+
+        Task<LedgerCurrentIndex> CurrentLedger();
+
+        Task<LedgerData> LedgerData(LedgerDataRequest request);
     }
 
     public class RippleClient : IRippleClient
@@ -181,7 +194,7 @@ namespace RippleDotNet
             return AccountChannels(request);
         }
 
-        public Task<AccountChannels> AccountChannels(Requests.Accounts.AccountChannelsRequest request)
+        public Task<AccountChannels> AccountChannels(Requests.Account.AccountChannelsRequest request)
         {
             var command = JsonConvert.SerializeObject(request, serializerSettings);
             TaskCompletionSource<AccountChannels> task = new TaskCompletionSource<AccountChannels>();
@@ -351,26 +364,40 @@ namespace RippleDotNet
             return task.Task;
         }
 
-        public Task<BaseTransaction> Transaction(string transaction)
+        public Task<ITransactionResponseCommon> Transaction(string transaction)
         {
             TransactionRequest request = new TransactionRequest(transaction);
-            return Transaction(request);
-        }
-
-        public Task<BaseTransaction> Transaction(TransactionRequest request)
-        {
             var command = JsonConvert.SerializeObject(request, serializerSettings);
-            TaskCompletionSource<BaseTransaction> task = new TaskCompletionSource<BaseTransaction>();
+            TaskCompletionSource<ITransactionResponseCommon> task = new TaskCompletionSource<ITransactionResponseCommon>();
 
             TaskInfo taskInfo = new TaskInfo();
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
-            taskInfo.Type = typeof(BaseTransaction);
-            
+            taskInfo.Type = typeof(TransactionResponseCommon);
+
             tasks.TryAdd(request.Id, taskInfo);
 
             client.SendMessage(command);
             return task.Task;
+        }
+
+        public Task<IBaseTransactionResponse> TransactionAsBinary(string transaction)
+        {
+            TransactionRequest request = new TransactionRequest(transaction);
+            request.Binary = true;
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<IBaseTransactionResponse> task = new TaskCompletionSource<IBaseTransactionResponse>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request.Id;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(BinaryTransactionResponse);
+
+            tasks.TryAdd(request.Id, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+
         }
 
         public Task<ServerInfo> ServerInfo()
@@ -500,6 +527,57 @@ namespace RippleDotNet
             taskInfo.TaskId = request.Id;
             taskInfo.TaskCompletionResult = task;
             taskInfo.Type = typeof(Ledger);
+
+            tasks.TryAdd(request.Id, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+
+        public Task<BaseLedgerInfo> ClosedLedger()
+        {
+            ClosedLedgerRequest request = new ClosedLedgerRequest();
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<BaseLedgerInfo> task = new TaskCompletionSource<BaseLedgerInfo>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request.Id;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(BaseLedgerInfo);
+
+            tasks.TryAdd(request.Id, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+
+        }
+
+        public Task<LedgerCurrentIndex> CurrentLedger()
+        {
+            CurrentLedgerRequest request = new CurrentLedgerRequest();
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<LedgerCurrentIndex> task = new TaskCompletionSource<LedgerCurrentIndex>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request.Id;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(LedgerCurrentIndex);
+
+            tasks.TryAdd(request.Id, taskInfo);
+
+            client.SendMessage(command);
+            return task.Task;
+        }
+
+        public Task<LedgerData> LedgerData(LedgerDataRequest request)
+        {
+            var command = JsonConvert.SerializeObject(request, serializerSettings);
+            TaskCompletionSource<LedgerData> task = new TaskCompletionSource<LedgerData>();
+
+            TaskInfo taskInfo = new TaskInfo();
+            taskInfo.TaskId = request.Id;
+            taskInfo.TaskCompletionResult = task;
+            taskInfo.Type = typeof(LedgerData);
 
             tasks.TryAdd(request.Id, taskInfo);
 

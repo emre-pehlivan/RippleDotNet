@@ -1,7 +1,9 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RippleDotNet.Model.Transactions.TransactionTypes;
+using RippleDotNet.Model.Transaction.TransactionTypes;
+using RippleDotNet.Responses.Transaction.Interfaces;
+using RippleDotNet.Responses.Transaction.TransactionTypes;
 
 namespace RippleDotNet.Json.Converters
 {
@@ -12,45 +14,43 @@ namespace RippleDotNet.Json.Converters
             throw new NotImplementedException();
         }
 
-        public BaseTransaction Create(Type objectType, JObject jObject)
+        public ITransactionResponseCommon Create(Type objectType, JObject jObject)
         {
             JProperty transactionType = jObject.Property("TransactionType");
-            if (transactionType == null)
-                return new BaseTransaction();
-
+            
             switch (transactionType.Value.ToString())
             {
                 case "AccountSet":
-                    return new AccountSetTransaction();
+                    return new AccountSetTransactionResponse();
                 case "EscrowCancel":
-                    return new EscrowCancelTransaction();
+                    return new EscrowCancelTransactionResponse();
                 case "EscrowCreate":
-                    return new EscrowCreateTransaction();
+                    return new EscrowCreateTransactionResponse();
                 case "EscrowFinish":
-                    return new EscrowFinishTransaction();
+                    return new EscrowFinishTransactionResponse();
                 case "OfferCancel":
-                    return new OfferCancelTransaction();
+                    return new OfferCancelTransactionResponse();
                 case "OfferCreate":
-                    return new OfferCreateTransaction();
+                    return new OfferCreateTransactionResponse();
                 case "Payment":
-                    return new PaymentTransaction();
+                    return new PaymentTransactionResponse();
                 case "PaymentChannelClaim":
-                    return new PaymentChannelClaimTransaction();
+                    return new PaymentChannelClaimTransactionResponse();
                 case "PaymentChannelCreate":
-                    return new PaymentChannelCreateTransaction();
+                    return new PaymentChannelCreateTransactionResponse();
                 case "PaymentChannelFund":
-                    return new PaymentChannelFundTransaction();
+                    return new PaymentChannelFundTransactionResponse();
                 case "SetRegularKey":
-                    return new SetRegularKeyTransaction();
+                    return new SetRegularKeyTransactionResponse();
                 case "SignerListSet":
-                    return new SignerListSetTransaction();
+                    return new SignerListSetTransactionResponse();
                 case "TrustSet":
-                    return new TrustSetTransaction();
+                    return new TrustSetTransactionResponse();
 
                 case "EnableAmendment":
-                    return new EnableAmendmentTransaction();
+                    return new EnableAmendmentTransactionResponse();
                 case "SetFee":
-                    return new SetFeeTransaction();
+                    return new SetFeeTransactionResponse();
             }
             throw new Exception("Can't create transaction type" + transactionType);
         }
@@ -58,14 +58,16 @@ namespace RippleDotNet.Json.Converters
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             JObject jObject = JObject.Load(reader);
-            BaseTransaction baseTransaction = Create(objectType, jObject);
-            serializer.Populate(jObject.CreateReader(), baseTransaction);
-            return baseTransaction;            
+            ITransactionResponseCommon transactionCommon = Create(objectType, jObject);
+            serializer.Populate(jObject.CreateReader(), transactionCommon);
+            return transactionCommon;            
         }
 
         public override bool CanConvert(Type objectType)
         {
-            return true;
+            if (objectType == typeof(ITransactionResponseCommon))
+                return true;
+            return false;
         }
 
         public override bool CanWrite => false;
