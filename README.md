@@ -18,13 +18,13 @@ client.Disconnect();
 ### Send A Payment
 
 Note that this request sends your Secret Key to the server.  You should never do this for a server you do not control or do not trust since this can expose your secret key.
-To send a payment using offline signing, see the example below which uses the [ripple-netcore](https://github.com/chriswill/ripple-netcore) library.
+To send a payment using offline signing, see the example following this one which uses the [ripple-netcore](https://github.com/chriswill/ripple-netcore) library.
 
 ```csharp
 IRippleClient client = new RippleClient("wss://s.altnet.rippletest.net:51233");
 client.Connect();
 
-PaymentTransaction paymentTransaction = new PaymentTransaction();
+IPaymentTransaction paymentTransaction = new PaymentTransaction();
 paymentTransaction.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
 paymentTransaction.Destination = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT";
 paymentTransaction.Amount = new Currency { CurrencyCode = "XRP", Value = "100000" };
@@ -41,19 +41,21 @@ client.Disconnect();
 
 ### Send A Payment using Offline Signing
 
+TxSigner is a class from [ripple-netcore](https://github.com/chriswill/ripple-netcore), mentioned above.
+
 ```csharp
 IRippleClient client = new RippleClient("wss://s.altnet.rippletest.net:51233");
 client.Connect();
 
 AccountInfo accountInfo = await client.AccountInfo("rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V");
 
-PaymentTransaction paymentTransaction = new PaymentTransaction();
+IPaymentTransaction paymentTransaction = new PaymentTransaction();
 paymentTransaction.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
 paymentTransaction.Destination = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT";
 paymentTransaction.Amount = new Currency { ValueAsXrp = 1 };
 paymentTransaction.Sequence = accountInfo.AccountData.Sequence;
 
-TxSigner signer = TxSigner.FromSecret("xxxxxxx");
+TxSigner signer = TxSigner.FromSecret("xxxxxxx");  //secret is not sent to server, offline signing only
 SignedTx signedTx = signer.SignJson(JObject.Parse(paymentTransaction.ToString()));
 
 SubmitBlobRequest request = new SubmitBlobRequest();
