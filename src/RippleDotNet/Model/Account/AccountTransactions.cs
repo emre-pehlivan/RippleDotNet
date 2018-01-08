@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
+using RippleDotNet.Json.Converters;
 using RippleDotNet.Model.Transaction;
 using RippleDotNet.Model.Transaction.TransactionTypes;
+using RippleDotNet.Responses.Transaction.TransactionTypes;
 
 namespace RippleDotNet.Model.Account
 {
@@ -37,10 +39,11 @@ namespace RippleDotNet.Model.Account
         public uint LedgerIndex { get; set; }
 
         [JsonProperty("meta")]
+        [JsonConverter(typeof(MetaBinaryConverter))]
         public Meta Meta { get; set; }
 
         [JsonProperty("tx")]
-        public TransactionCommon Transaction { get; set; }
+        public TransactionResponseCommon Transaction { get; set; }
 
         [JsonProperty("tx_blob")]
         public string TransactionBlob { get; set; }

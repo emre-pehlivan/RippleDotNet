@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Ripple.Core.Types;
 using RippleDotNet.Model;
 using RippleDotNet.Model.Account;
 using RippleDotNet.Requests.Account;
@@ -84,7 +86,7 @@ namespace RippleDotNet.Tests
         [TestMethod]
         public async Task CanGetAccountTransactions()
         {
-            var accountTransactions = await client.AccountTransactions(account);
+            AccountTransactions accountTransactions = await client.AccountTransactions(account);
             Assert.IsNotNull(accountTransactions);
         }
 
@@ -130,6 +132,14 @@ namespace RippleDotNet.Tests
         {
             var balances = await client.GatewayBalances(account);
             Assert.IsNotNull(balances);
+        }
+
+        [TestMethod]
+        public void CanDecodeMetaBinary()
+        {
+            var meta = "201C00000000F8E511006125004D1B5655AB8953C6EFD2EBDD5D6314CE0DAFF4CA5B180AE1792B47468ECA5EC5AED28CA45698430F87624433A745D429635D1B2B982EF22AC7E4112ACF43DA97AEF258DC76E6624000000254C5E530E1E7220000000024000000022D00000000624000000254D527708114A2D0815DD52160FF1979A60C50B00C09ECD669D4E1E1E511006125004D1B5655AB8953C6EFD2EBDD5D6314CE0DAFF4CA5B180AE1792B47468ECA5EC5AED28CA456CECECAD86B8E831AA8DB7C8AE259D7D5C1B85C6A5FB9A4341CF560DFB8242F10E624000000126240000002534F23B0E1E7220000000024000000132D000000016240000002533FE1668114656CFDA8B366CAFE7EDC195A6DE87921FB70C231E1E1F1031000";
+            StObject obj = StObject.FromHex(meta);
+            Assert.IsNotNull(obj);
         }
     }
 }

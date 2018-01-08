@@ -102,6 +102,8 @@ namespace RippleDotNet.Model.Transaction.TransactionTypes
     {
         public List<AffectedNode> AffectedNodes { get; set; }
 
+        public string MetaBlob { get; set; }
+
         public int TransactionIndex { get; set; }
 
         public string TransactionResult { get; set; }

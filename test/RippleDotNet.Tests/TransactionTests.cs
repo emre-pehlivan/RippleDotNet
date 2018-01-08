@@ -26,11 +26,11 @@ namespace RippleDotNet.Tests
         private static IRippleClient client;
         private static JsonSerializerSettings serializerSettings;
 
-        //private static string serverUrl = "wss://s.altnet.rippletest.net:51233";
+        private static string serverUrl = "wss://s.altnet.rippletest.net:51233";
         
         
         //private static string serverUrl = "wss://s1.ripple.com:443";
-        private static string serverUrl = "wss://s2.ripple.com:443";
+        //private static string serverUrl = "wss://s2.ripple.com:443";
 
         public TestContext TestContext { get; set; }
 
