@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Ripple.Core.Types;
 using Ripple.TxSigning;
 using RippleDotNet.Extensions;
 using RippleDotNet.Json.Converters;
@@ -15,6 +16,7 @@ using RippleDotNet.Model.Transaction.TransactionTypes;
 using RippleDotNet.Requests.Ledger;
 using RippleDotNet.Requests.Transaction;
 using RippleDotNet.Responses.Transaction.Interfaces;
+using Currency = RippleDotNet.Model.Currency;
 
 namespace RippleDotNet.Tests
 {
@@ -50,7 +52,7 @@ namespace RippleDotNet.Tests
         public async Task CanGetTransaction()
         {
             //transaction on mainnet
-            ITransactionResponseCommon transaction = await client.Transaction("5FF261E0E463EF3CA9E2BD4F0754E398A3DBAADF71A3911190C5F9A1241ED403");
+            ITransactionResponseCommon transaction = await client.Transaction("F1CFA020DB5DF2AF3E06D9E84B50EFAA2854D7269238C1F188BE007C9D2B5FB8");
             Assert.IsNotNull(transaction);           
         }
 
@@ -117,13 +119,17 @@ namespace RippleDotNet.Tests
         [TestMethod]
         public async Task CanSubmitPaymentTransaction()
         {
-            AccountInfo accountInfo = await client.AccountInfo("rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V");
+            IRippleClient rippleClient = new RippleClient("wss://s.altnet.rippletest.net:51233");
+            rippleClient.Connect();
+
+            AccountInfo accountInfo = await rippleClient.AccountInfo("rEqtEHKbinqm18wQSQGstmqg9SFpUELasT");
 
             IPaymentTransaction paymentTransaction = new PaymentTransaction();
-            paymentTransaction.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
-            paymentTransaction.Destination = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT";
-            paymentTransaction.Amount = new Currency { ValueAsXrp = 1};
+            paymentTransaction.Account = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT";
+            paymentTransaction.Destination = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
+            paymentTransaction.Amount = new Currency { ValueAsXrp = 20};
             paymentTransaction.Sequence = accountInfo.AccountData.Sequence;
+            paymentTransaction.Fee = new Currency{Value = "15"};
 
             var json = paymentTransaction.ToString();
             TxSigner signer = TxSigner.FromSecret("xxxxxxx");
@@ -132,7 +138,7 @@ namespace RippleDotNet.Tests
             SubmitBlobRequest request = new SubmitBlobRequest();
             request.TransactionBlob = signedTx.TxBlob;
 
-            Submit result = await client.SubmitTransactionBlob(request);
+            Submit result = await rippleClient.SubmitTransactionBlob(request);
             Assert.IsNotNull(result);
             Assert.AreEqual("tesSUCCESS", result.EngineResult);
             Assert.IsNotNull(result.Transaction.Hash);
@@ -280,6 +286,88 @@ namespace RippleDotNet.Tests
             Assert.IsNotNull(result.Transaction.Hash);
 
         }
-       
+
+        [TestMethod]
+        public async Task CanReleaseEscrow()
+        {
+            IEscrowFinishTransaction escrowFinishTransaction = new EscrowFinishTransaction();
+            escrowFinishTransaction.Account = "rho3u4kXc5q3chQFKfn9S1ZqUCya1xT3t4";
+            escrowFinishTransaction.Owner = "r9NpyVfLfUG8hatuCCHKzosyDtKnBdsEN3";
+            escrowFinishTransaction.OfferSequence = 10;
+            escrowFinishTransaction.Fee = new Currency{Value = "15"};
+            escrowFinishTransaction.Flags = 2147483648;
+
+            var json = escrowFinishTransaction.ToString();
+            TxSigner signer = TxSigner.FromSecret("xxxxxxx");
+            SignedTx signedTx = signer.SignJson(JObject.Parse(json));
+
+            SubmitBlobRequest request = new SubmitBlobRequest();
+            request.TransactionBlob = signedTx.TxBlob;
+
+            Submit result = await client.SubmitTransactionBlob(request);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("tesSUCCESS", result.EngineResult);
+            Assert.IsNotNull(result.Transaction.Hash);
+
+        }
+
+        [TestMethod]
+        public async Task CanCreateEscrow()
+        {
+            IRippleClient rippleClient = new RippleClient("wss://s.altnet.rippletest.net:51233");
+            rippleClient.Connect();
+
+            AccountInfo accountInfo = await rippleClient.AccountInfo("rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V");
+
+            IEscrowCreateTransaction createTransaction = new EscrowCreateTransaction();
+            createTransaction.Amount = new Currency{ValueAsXrp = 10};
+            createTransaction.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
+            createTransaction.FinishAfter = DateTime.UtcNow.AddMinutes(1);
+            createTransaction.Destination = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT";
+            createTransaction.Fee = new Currency{Value = "11"};
+            createTransaction.Sequence = accountInfo.AccountData.Sequence;
+
+            var json = createTransaction.ToString();
+            TxSigner signer = TxSigner.FromSecret("xxxxxxx");
+            SignedTx signedTx = signer.SignJson(JObject.Parse(json));
+
+            SubmitBlobRequest request = new SubmitBlobRequest();
+            request.TransactionBlob = signedTx.TxBlob;
+
+            Submit result = await rippleClient.SubmitTransactionBlob(request);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("tesSUCCESS", result.EngineResult);
+            Assert.IsNotNull(result.Transaction.Hash);
+        }
+
+        [TestMethod]
+        public async Task CanFinishEscrow()
+        {
+            IRippleClient rippleClient = new RippleClient("wss://s.altnet.rippletest.net:51233");
+            rippleClient.Connect();
+
+            AccountInfo accountInfo = await rippleClient.AccountInfo("rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V");
+
+            IEscrowFinishTransaction finishTransaction = new EscrowFinishTransaction();
+            finishTransaction.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
+            finishTransaction.Owner = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
+            finishTransaction.OfferSequence = 29;
+            finishTransaction.Fee = new Currency { Value = "11" };
+            finishTransaction.Flags = 2147483648;
+            finishTransaction.Sequence = accountInfo.AccountData.Sequence;
+
+            var json = finishTransaction.ToString();
+            TxSigner signer = TxSigner.FromSecret("xxxxxxx");
+            SignedTx signedTx = signer.SignJson(JObject.Parse(json));
+
+            SubmitBlobRequest request = new SubmitBlobRequest();
+            request.TransactionBlob = signedTx.TxBlob;
+
+            Submit result = await rippleClient.SubmitTransactionBlob(request);
+            Assert.IsNotNull(result);
+            Assert.AreEqual("tesSUCCESS", result.EngineResult);
+            Assert.IsNotNull(result.Transaction.Hash);
+        }        
+
     }
 }

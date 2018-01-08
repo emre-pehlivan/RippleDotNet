@@ -1,15 +1,16 @@
 ﻿using System;
 using Newtonsoft.Json;
 using RippleDotNet.Json.Converters;
+using RippleDotNet.Model;
 using RippleDotNet.Model.Transaction.Interfaces;
-using RippleDotNet.Model.Transaction.TransactionTypes;
-using RippleDotNet.Responses.Transaction.Interfaces;
+
 
 namespace RippleDotNet.Responses.Transaction.TransactionTypes
 {
     public class EscrowCreateTransactionResponse : TransactionResponseCommon, IEscrowCreateTransaction
     {
-        public string Amount { get; set; }
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Amount { get; set; }
 
         public string Destination { get; set; }
 

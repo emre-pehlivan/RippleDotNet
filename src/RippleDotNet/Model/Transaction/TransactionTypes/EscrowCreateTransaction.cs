@@ -12,7 +12,8 @@ namespace RippleDotNet.Model.Transaction.TransactionTypes
             TransactionType = TransactionType.EscrowCreate;
         }
 
-        public string Amount { get; set; }
+        [JsonConverter(typeof(CurrencyConverter))]
+        public Currency Amount { get; set; }
 
         public string Destination { get; set; }
 

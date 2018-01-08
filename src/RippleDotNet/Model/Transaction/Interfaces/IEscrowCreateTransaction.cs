@@ -4,7 +4,7 @@ namespace RippleDotNet.Model.Transaction.Interfaces
 {
     public interface IEscrowCreateTransaction : ITransactionCommon
     {
-        string Amount { get; set; }
+        Currency Amount { get; set; }
         DateTime? CancelAfter { get; set; }
         string Condition { get; set; }
         string Destination { get; set; }
