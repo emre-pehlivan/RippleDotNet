@@ -10,6 +10,14 @@ namespace RippleDotNet.Model.Transaction.TransactionTypes
     [JsonConverter(typeof(TransactionConverter))]
     public abstract class TransactionCommon : ITransactionCommon
     {
+        protected TransactionCommon()
+        {
+            Fee = new Currency {Value = "10"};
+        }
+
+        /// <summary>
+        /// This is a required field
+        /// </summary>
         public string Account { get; set; }
 
         public string AccountTxnID { get; set; }
@@ -17,7 +25,7 @@ namespace RippleDotNet.Model.Transaction.TransactionTypes
         [JsonConverter(typeof(CurrencyConverter))]
         public Currency Fee { get; set; }
 
-        public uint? Flags { get; set; }
+        public TransactionFlags? Flags { get; set; }
 
         /// <summary>
         /// Although optional, the LastLedgerSequence is strongly recommended on every transaction to ensure it's validated or rejected promptly.
@@ -26,6 +34,9 @@ namespace RippleDotNet.Model.Transaction.TransactionTypes
 
         public List<Memo> Memos { get; set; }
 
+        /// <summary>
+        /// This is a required field
+        /// </summary>
         public uint? Sequence { get; set; }
 
         [JsonProperty("SigningPubKey")]
@@ -42,7 +53,7 @@ namespace RippleDotNet.Model.Transaction.TransactionTypes
         [JsonProperty("meta")]
         public Meta Meta { get; set; }      
 
-        public override string ToString()
+        public string ToJson()
         {
             JsonSerializerSettings serializerSettings = new JsonSerializerSettings();
             serializerSettings.NullValueHandling = NullValueHandling.Ignore;

@@ -21,7 +21,7 @@ namespace RippleDotNet.Responses.Transaction.TransactionTypes
         [JsonConverter(typeof(CurrencyConverter))]
         public Currency Fee { get; set; }
 
-        public uint? Flags { get; set; }
+        public TransactionFlags? Flags { get; set; }
 
         /// <summary>
         /// Although optional, the LastLedgerSequence is strongly recommended on every transaction to ensure it's validated or rejected promptly.
@@ -46,7 +46,7 @@ namespace RippleDotNet.Responses.Transaction.TransactionTypes
         [JsonProperty("meta")]
         public Meta Meta { get; set; }
 
-        public override string ToString()
+        public string ToJson()
         {
             JsonSerializerSettings serializerSettings = new JsonSerializerSettings();
             serializerSettings.NullValueHandling = NullValueHandling.Ignore;

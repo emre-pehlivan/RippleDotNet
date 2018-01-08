@@ -9,7 +9,7 @@ namespace RippleDotNet.Responses.Transaction.Interfaces
         string Account { get; set; }
         string AccountTxnID { get; set; }
         Currency Fee { get; set; }
-        uint? Flags { get; set; }
+        TransactionFlags? Flags { get; set; }
         uint? LastLedgerSequence { get; set; }
         List<Memo> Memos { get; set; }
         Meta Meta { get; set; }
@@ -19,6 +19,6 @@ namespace RippleDotNet.Responses.Transaction.Interfaces
         string TransactionSignature { get; set; }
         TransactionType TransactionType { get; set; }
 
-        string ToString();
+        string ToJson();
     }
 }

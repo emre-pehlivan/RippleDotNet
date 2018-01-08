@@ -56,7 +56,7 @@ paymentTransaction.Amount = new Currency { ValueAsXrp = 1 };
 paymentTransaction.Sequence = accountInfo.AccountData.Sequence;
 
 TxSigner signer = TxSigner.FromSecret("xxxxxxx");  //secret is not sent to server, offline signing only
-SignedTx signedTx = signer.SignJson(JObject.Parse(paymentTransaction.ToString()));
+SignedTx signedTx = signer.SignJson(JObject.Parse(paymentTransaction.ToJson()));
 
 SubmitBlobRequest request = new SubmitBlobRequest();
 request.TransactionBlob = signedTx.TxBlob;

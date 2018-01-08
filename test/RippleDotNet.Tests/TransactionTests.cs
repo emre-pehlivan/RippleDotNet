@@ -94,7 +94,7 @@ namespace RippleDotNet.Tests
 
             const string expectedResult = "{\"Amount\":\"1000000\",\"Destination\":\"rEqtEHKbinqm18wQSQGstmqg9SFpUELasT\",\"Flags\":2147483648,\"Account\":\"rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V\",\"TransactionType\":\"Payment\"}";
             
-            Assert.AreEqual(expectedResult, paymentTransaction.ToString());            
+            Assert.AreEqual(expectedResult, paymentTransaction.ToJson());            
         }
 
         [TestMethod]
@@ -131,7 +131,7 @@ namespace RippleDotNet.Tests
             paymentTransaction.Sequence = accountInfo.AccountData.Sequence;
             paymentTransaction.Fee = new Currency{Value = "15"};
 
-            var json = paymentTransaction.ToString();
+            var json = paymentTransaction.ToJson();
             TxSigner signer = TxSigner.FromSecret("xxxxxxx");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
@@ -154,7 +154,7 @@ namespace RippleDotNet.Tests
             trustSet.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
             trustSet.Sequence = accountInfo.AccountData.Sequence;
 
-            var json = trustSet.ToString();
+            var json = trustSet.ToJson();
             TxSigner signer = TxSigner.FromSecret("xxxxxxx");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
@@ -205,7 +205,7 @@ namespace RippleDotNet.Tests
             offerCreate.Expiration = DateTime.UtcNow.AddHours(1);
             offerCreate.Account = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
 
-            var json = offerCreate.ToString();
+            var json = offerCreate.ToJson();
             TxSigner signer = TxSigner.FromSecret("xxxxxxx");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
@@ -246,7 +246,7 @@ namespace RippleDotNet.Tests
             offerCreate.Expiration = DateTime.UtcNow.AddHours(1);
             offerCreate.Account = "rEqtEHKbinqm18wQSQGstmqg9SFpUELasT";
 
-            var json = offerCreate.ToString();
+            var json = offerCreate.ToJson();
             TxSigner signer = TxSigner.FromSecret("xxxxxxx");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
@@ -273,7 +273,7 @@ namespace RippleDotNet.Tests
             trustSet.Sequence = accountInfo.AccountData.Sequence;
             trustSet.Fee = new Currency {Value = "12"};
 
-            var json = trustSet.ToString();
+            var json = trustSet.ToJson();
             TxSigner signer = TxSigner.FromSecret("xxxxxxx");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
@@ -295,9 +295,9 @@ namespace RippleDotNet.Tests
             escrowFinishTransaction.Owner = "r9NpyVfLfUG8hatuCCHKzosyDtKnBdsEN3";
             escrowFinishTransaction.OfferSequence = 10;
             escrowFinishTransaction.Fee = new Currency{Value = "15"};
-            escrowFinishTransaction.Flags = 2147483648;
+            escrowFinishTransaction.Flags = TransactionFlags.tfFullyCanonicalSig;
 
-            var json = escrowFinishTransaction.ToString();
+            var json = escrowFinishTransaction.ToJson();
             TxSigner signer = TxSigner.FromSecret("xxxxxxx");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
@@ -327,7 +327,7 @@ namespace RippleDotNet.Tests
             createTransaction.Fee = new Currency{Value = "11"};
             createTransaction.Sequence = accountInfo.AccountData.Sequence;
 
-            var json = createTransaction.ToString();
+            var json = createTransaction.ToJson();
             TxSigner signer = TxSigner.FromSecret("xxxxxxx");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 
@@ -353,10 +353,10 @@ namespace RippleDotNet.Tests
             finishTransaction.Owner = "rwEHFU98CjH59UX2VqAgeCzRFU9KVvV71V";
             finishTransaction.OfferSequence = 29;
             finishTransaction.Fee = new Currency { Value = "11" };
-            finishTransaction.Flags = 2147483648;
+            finishTransaction.Flags = TransactionFlags.tfFullyCanonicalSig;
             finishTransaction.Sequence = accountInfo.AccountData.Sequence;
 
-            var json = finishTransaction.ToString();
+            var json = finishTransaction.ToJson();
             TxSigner signer = TxSigner.FromSecret("xxxxxxx");
             SignedTx signedTx = signer.SignJson(JObject.Parse(json));
 

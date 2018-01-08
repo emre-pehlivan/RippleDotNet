@@ -111,6 +111,12 @@ namespace RippleDotNet.Model
     }
 
     [Flags]
+    public enum TransactionFlags : uint
+    {        
+        tfFullyCanonicalSig = 2147483648
+    }
+
+    [Flags]
     public enum PaymentFlags : uint
     {
         tfNoDirectRipple = 65536,

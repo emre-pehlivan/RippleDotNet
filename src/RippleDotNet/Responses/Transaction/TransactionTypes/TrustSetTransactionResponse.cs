@@ -8,7 +8,7 @@ namespace RippleDotNet.Responses.Transaction.TransactionTypes
 {
     public class TrustSetTransactionResponse : TransactionResponseCommon, ITrustSetTransaction
     {
-        public TrustSetFlags? Flags { get; set; }
+        public new TrustSetFlags? Flags { get; set; }
 
         [JsonConverter(typeof(CurrencyConverter))]
         public Currency LimitAmount { get; set; }

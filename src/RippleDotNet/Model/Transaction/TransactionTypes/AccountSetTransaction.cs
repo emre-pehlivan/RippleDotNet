@@ -10,6 +10,11 @@ namespace RippleDotNet.Model.Transaction.TransactionTypes
             TransactionType = TransactionType.AccountSet;
         }
 
+        public AccountSetTransaction(string account) : this()
+        {
+            Account = account;
+        }
+
         public uint? ClearFlag { get; set; }
 
         public string Domain { get; set; }
