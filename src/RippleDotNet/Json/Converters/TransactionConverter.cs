@@ -51,6 +51,8 @@ namespace RippleDotNet.Json.Converters
                     return new EnableAmendmentTransactionResponse();
                 case "SetFee":
                     return new SetFeeTransactionResponse();
+                case "AccountDelete":
+                    return new AccountDeleteTransactionResponse();
             }
             throw new Exception("Can't create transaction type" + transactionType);
         }

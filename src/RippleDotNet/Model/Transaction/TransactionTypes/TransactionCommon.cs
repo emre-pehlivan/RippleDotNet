@@ -109,6 +109,7 @@ namespace RippleDotNet.Model.Transaction.TransactionTypes
         public string TransactionResult { get; set; }
 
         [JsonConverter(typeof(CurrencyConverter))]
+        [JsonProperty("delivered_amount")]
         public Currency DeliveredAmount { get; set; }
     }
 
