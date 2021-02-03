@@ -19,7 +19,8 @@ namespace RippleDotNet.Model
         PaymentChannelFund,
         PaymentChannelClaim,
         EnableAmendment,
-        SetFee
+        SetFee,
+        AccountDelete
     }
 
     public enum LedgerEntryType
@@ -122,6 +123,12 @@ namespace RippleDotNet.Model
         tfNoDirectRipple = 65536,
         tfPartialPayment = 131072,
         tfLimitQuality = 262144,
+        tfFullyCanonicalSig = 2147483648
+    }
+    
+    [Flags]
+    public enum AccountDeleteFlags : uint
+    {
         tfFullyCanonicalSig = 2147483648
     }
 
