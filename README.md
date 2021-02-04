@@ -1,6 +1,6 @@
-[![NuGet Badge](https://buildstats.info/nuget/RippleCoreAPI)](https://www.nuget.org/packages/RippleCoreAPI/)
+[![NuGet Badge](https://buildstats.info/nuget/Ripple.APICore)](https://www.nuget.org/packages/Ripple.APICore/)
 
-# RippleCoreAPI
+# Ripple.APICore
 A C# NetStandard 2.0 client implementation for the [Ripple WebSocket APIs](https://ripple.com/build/rippled-apis/#websocket-api).
 
 This library is written to the NetStandard2 specification, which means that it can run using .Net Core on Windows, Mac OS/X and Unix.  I'm only testing it on Windows however, so I'd appreciate any feedback on other platforms.

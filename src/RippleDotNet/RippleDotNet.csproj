@@ -6,15 +6,16 @@
     <RootNamespace>RippleDotNet</RootNamespace>
     <Authors>Chris Williams</Authors>
     <Company>CloudScope, LLC</Company>
-    <Description>RippleCoreAPI is a C# NetStandard 2.0 client implementation for the Ripple WebSocket APIs.</Description>
+    <Description>Ripple.APICore is a C# NetStandard 2.0 client implementation for the Ripple WebSocket APIs.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/chriswill/RippleDotNet</RepositoryUrl>
     <Copyright>Copyright 2021, CloudScope, LLC</Copyright>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl></PackageLicenseUrl>
-    <PackageId>RippleCoreAPI</PackageId>
-    <Product>RippleCoreAPI</Product>
+    <PackageId>Ripple.APICore</PackageId>
+    <Product>Ripple.APICore</Product>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
