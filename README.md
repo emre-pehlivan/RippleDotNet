@@ -1,3 +1,5 @@
+[![NuGet Badge](https://buildstats.info/nuget/RippleCoreAPI)](https://www.nuget.org/packages/RippleCoreAPI/)
+
 # RippleDotNet
 A C# NetStandard 2.0 client implementation for the [Ripple WebSocket APIs](https://ripple.com/build/rippled-apis/#websocket-api).
 
@@ -67,6 +69,4 @@ client.Disconnect();
 ```
 
 You can see additional examples, including Creating Offers, etc. by looking at the unit test project.
-
-Ripple contributions gratefully accepted at rPGKpTsgSaQiwLpEekVj1t5sgYJiqf2HDC (~ChrisW).
   
