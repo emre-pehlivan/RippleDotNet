@@ -1,8 +1,5 @@
 name: $(MajorVersion).$(MinorVersion).$(PatchVersion)
 
-trigger:
-- main
-
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -32,7 +29,7 @@ steps:
   displayName: Pack
   inputs:
     command: pack
-    packagesToPack: src/Serilog.Sinks.AzureBlobStorage/Serilog.Sinks.AzureBlobStorage.csproj
+    packagesToPack: src/RippleDotNet/RippleDotNet.csproj
     versioningScheme: byBuildNumber
 
 - task: NuGetCommand@2
