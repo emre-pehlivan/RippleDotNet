@@ -9,11 +9,12 @@
     <Description>RippleCoreAPI is a C# NetStandard 2.0 client implementation for the Ripple WebSocket APIs.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/chriswill/RippleDotNet</RepositoryUrl>
-    <Copyright>Copyright 2017, CloudScope, LLC</Copyright>
+    <Copyright>Copyright 2021, CloudScope, LLC</Copyright>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageLicenseUrl>https://github.com/chriswill/RippleDotNet/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
     <PackageId>RippleCoreAPI</PackageId>
     <Product>RippleCoreAPI</Product>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -30,6 +31,13 @@
     <Folder Include="Model\Subscriptions\" />
     <Folder Include="Requests\Subscription\" />
     <Folder Include="Requests\Server\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
