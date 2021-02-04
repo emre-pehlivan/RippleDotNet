@@ -8,7 +8,7 @@ This library is written to the NetStandard2 specification, which means that it c
 This library is in the early stages of development and should only be used on the TestNet. Use at your own risk.
 
 ## Install
-Install from Nuget --> https://www.nuget.org/packages/RippleCoreAPI/
+Install from Nuget --> https://www.nuget.org/packages/Ripple.APICore/
 
 ## Examples
 
