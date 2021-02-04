@@ -35,9 +35,10 @@ steps:
 - task: NuGetCommand@2
   displayName: 'NuGet push'
   inputs:
-    command: push
-    nuGetFeedType: external
-    publishFeedCredentials: Nuget.org
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'Nuget.org'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
