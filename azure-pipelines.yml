@@ -1,5 +1,8 @@
 name: $(MajorVersion).$(MinorVersion).$(PatchVersion)
 
+trigger:
+- master
+
 pool:
   vmImage: 'ubuntu-latest'
 
