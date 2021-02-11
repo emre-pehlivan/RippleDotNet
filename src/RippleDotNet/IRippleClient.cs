@@ -26,6 +26,8 @@ namespace RippleDotNet
 {
     public interface IRippleClient
     {
+        WebSocketState ClientState();
+
         void Connect();
 
         void Disconnect();
@@ -136,10 +138,15 @@ namespace RippleDotNet
         public void Connect()
         {
             client.Connect();
-            do
-            {
-                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
-            } while (client.State != WebSocketState.Open);
+            //do
+            //{
+            //    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(1));
+            //} while (client.State != WebSocketState.Open);
+        }
+
+        public WebSocketState ClientState()
+        {
+            return client.State;
         }
 
         public void Disconnect()
